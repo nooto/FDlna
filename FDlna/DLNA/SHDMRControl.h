@@ -21,7 +21,7 @@
 /**
  发现并添加DMR(媒体渲染器)
  */
--(void)onDMRAdded;
+-(void)onDMRAdded:(NSDictionary*)MRDevice;
 
 /**
  移除DMR

@@ -10,6 +10,8 @@
 #import "FMusicTableViewCell.h"
 #import "FLocalMusicServices.h"
 #import "SOSoundBoxPlayer.h"
+#import "FDiscoveryViewCell.h"
+
 @interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *mTableView;
@@ -21,15 +23,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.mNavView setBackgroundColorClear];
-    [self.mNavView.mRightButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self setTitle:@"可用设备"];
+    [self.mNavView.mRightButton setTitle:@"重新查找" forState:UIControlStateNormal];
     [self.mNavView.mRightButton addTarget:self action:@selector(rightButtonAciont:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mTableView];
-    [self requestLocalMusicData];
 }
 
 - (void)rightButtonAciont:(UIButton*)sender{
-    FDiscoveryViewController *vc = [[FDiscoveryViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    [[SOSoundBoxPlayer sharedPlayer] stopDLNA];
+    [[SOSoundBoxPlayer sharedPlayer] startDLNA];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -41,7 +43,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.section == 0) ? 80.0f : 44.f;
+    return  44.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -53,16 +55,16 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.mSourceDatas.count;
+    return  [SOSoundBoxPlayer sharedPlayer].mArrSoundboxs.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    FMusicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FMusicTableViewCell class])];
-    [cell setMItem: [self.mSourceDatas objectAtIndex:indexPath.row]];
+    FDiscoveryViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
+    [cell setMDeviceDict:[[SOSoundBoxPlayer sharedPlayer].mArrSoundboxs objectAtIndex:indexPath.row]];
     return cell;
 }
 
@@ -78,7 +80,7 @@
         _mTableView.separatorColor = _mTableView.backgroundColor;
         _mTableView.dataSource = self;
         _mTableView.delegate = self;
-        [_mTableView registerClass:[FMusicTableViewCell class] forCellReuseIdentifier:NSStringFromClass([FMusicTableViewCell class])];
+        [_mTableView registerClass:[FDiscoveryViewCell class] forCellReuseIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
         
     }
     return _mTableView;

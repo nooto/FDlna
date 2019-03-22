@@ -1,6 +1,6 @@
 #include "PltMicroMediaController.h"
 #include <Platinum/PltHttp.h>
-
+#import "SOBaseCode.h"
 //NPSET_LOCAL_LOGGER("platinum.tests.micromediacontroller")
 /*----------------------------------------------------------------------
  |   PLT_MicroMediaController::PLT_MicroMediaController
@@ -205,16 +205,14 @@ PLT_MicroMediaController::OnMRAdded(PLT_DeviceDataReference& device)
         m_MediaRenderers.Put(uuid, device);
     }
         
-//    SHDeviceModel *renderDevice = [[SHDeviceModel alloc] init];
-//    renderDevice.deviceName = [NSString stringWithUTF8String:device->GetFriendlyName()];
-//    if (renderDevice.deviceName.length > 10) {
-//        renderDevice.deviceName = [renderDevice.deviceName substringToIndex:9];
-//    }
-//    renderDevice.deviceUUID =[NSString stringWithUTF8String:uuid];
-    
-    if(m_Target.delegate && [m_Target.delegate respondsToSelector:@selector(onDMRAdded)])
+    NSMutableDictionary *renderDevice = [[NSMutableDictionary alloc] init];
+    [renderDevice setValue:[NSString stringWithUTF8String:device->GetFriendlyName()] forKey:kKeyDeviceName];
+    [renderDevice setValue:[NSString stringWithUTF8String:uuid] forKey:kKeyDeviceUUID];
+    if(m_Target.delegate && [m_Target.delegate respondsToSelector:@selector(onDMRAdded:)])
     {
-        [m_Target.delegate onDMRAdded];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [m_Target.delegate onDMRAdded:renderDevice];
+        });
     }
     return true;
 }

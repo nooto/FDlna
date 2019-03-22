@@ -9,6 +9,7 @@
 #import "SOSoundBoxPlayer.h"
 #import "SHDMRControl.h"
 #import "SOTools.h"
+#import "SOBaseCode.h"
 static NSInteger const MaxPlalistCount = 200;
 static NSInteger const   playIndex = 50;//防止歌单超过最大后 无法添加，默认前面50首 后面150首的空余
 static NSString * const KProcessTimerName = @"processTimerName";
@@ -279,7 +280,6 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     _mArrSongList = nil;
     [self.mArrSoundboxs removeAllObjects];
     _mArrSoundboxs = nil;
-    
     [_mDMRCountrol stop];
 }
 -(NSString*)getCurItemTitle{
@@ -680,10 +680,24 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 
 #pragma mark -  SHDMRProtocolDelegate  可播放设备搜索结果。。。
--(void)onDMRAdded{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *arrActiveRenders = [_mDMRCountrol getActiveRenders];
-    });
+-(void)onDMRAdded:(NSDictionary*)MRDevice{
+    if (![MRDevice isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    
+    for (NSInteger i = 0; i <= self.mArrSoundboxs.count; i++) {
+        if (i == self.mArrSoundboxs.count) {
+            [self.mArrSoundboxs addObject:MRDevice];
+            break;
+        }
+        else{
+            NSDictionary*tempDict = [self.mArrSoundboxs objectAtIndex:i];
+            if ([tempDict[kKeyDeviceUUID] isEqualToString:MRDevice[kKeyDeviceUUID]]) {
+                break;
+            }
+        }
+    }
+    
 }
 
 -(void)onDMRRemoved:(NSString *)deviceUUID{

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SONavigationView/SONavigationView.h"
-
+#import "SOBaseCode.h"
 
 @interface FBaseViewController : UIViewController
 @property (nonatomic, strong, readonly) SONavigationView *mNavView;

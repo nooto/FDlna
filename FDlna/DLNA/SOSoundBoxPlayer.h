@@ -108,8 +108,10 @@ typedef NS_ENUM(NSInteger, EPlayStatues){
 @interface SOSoundBoxPlayer : NSObject
 
 @property (nonatomic,strong, readonly) NSMutableArray *mArrSongList;
+
 @property (nonatomic, strong) id currentItem;   // 当前播放正在播放的东西，这里还要根据实际情况去修改  可能是空。
-//@property (nonatomic, strong) NSMutableArray *mArrCanPlaySoundBox;//通过DLNA搜索到且可播放的音箱设备。
+
+@property (nonatomic, strong, readonly) NSMutableArray *mArrSoundboxs;//需要播放的音箱设备。
 
 /**
  所有事件上报通知。
