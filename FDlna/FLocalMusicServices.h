@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SOTools.h"
 
 
 @interface FLocalMusicServices : NSObject

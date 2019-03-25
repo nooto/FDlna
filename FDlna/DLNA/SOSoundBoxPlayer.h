@@ -14,25 +14,25 @@ extern NSString *const kPlayerDidChangeNotificationName;
 
 typedef void(^actionResultBlock)(NSString *uuid, NSInteger result);
 
-//typedef NS_ENUM(NSInteger, EPlayEvent) {
-//    EVENT_PlayAction,               // 播放动作
-//    EVENT_PauseAction,
-//    EVENT_StopAction,
-//
-//    EVENT_SetVolumeAction,          // 设置音量
-//    EVENT_GetVolumeAction,
-//
-//    EVENT_SetProgressAction,        // 设置进度
-//    EVENT_GetProgressAction,
-//
-////    EVENT_StatueChange              // 状态变化通知
-//    EVENT_PlayStatueChange,              //播放状态
-//    EVENT_VolumStatueChange,              // 音量状态
-//    EVENT_ProcessStatueChange,              //进度状态
-//
-//    EVENT_Other     //  栅栏状态    不使用
-//
-//};
+typedef NS_ENUM(NSInteger, EPlayEvent) {
+    EVENT_PlayAction,               // 播放动作
+    EVENT_PauseAction,
+    EVENT_StopAction,
+
+    EVENT_SetVolumeAction,          // 设置音量
+    EVENT_GetVolumeAction,
+
+    EVENT_SetProgressAction,        // 设置进度
+    EVENT_GetProgressAction,
+
+//    EVENT_StatueChange              // 状态变化通知
+    EVENT_PlayStatueChange,              //播放状态
+    EVENT_VolumStatueChange,              // 音量状态
+    EVENT_ProcessStatueChange,              //进度状态
+
+    EVENT_Other     //  栅栏状态    不使用
+
+};
 
 typedef NS_ENUM(NSInteger, EEventStatues) {
     STATUES_LocationPlayNoServer = 10001,       // 本地播放没找到媒体服务器，进行重建服务器，并重新搜索DLNA 设备&服务器
@@ -109,6 +109,7 @@ typedef NS_ENUM(NSInteger, EPlayStatues){
 
 @property (nonatomic,strong, readonly) NSMutableArray *mArrSongList;
 
+@property (nonatomic, strong, readonly) NSDictionary *mCurMSRDevices;//当前正在播放的设备。
 @property (nonatomic, strong) id currentItem;   // 当前播放正在播放的东西，这里还要根据实际情况去修改  可能是空。
 
 @property (nonatomic, strong, readonly) NSMutableArray *mArrSoundboxs;//需要播放的音箱设备。
@@ -124,14 +125,13 @@ typedef NS_ENUM(NSInteger, EPlayStatues){
 
 -(NSString*)getCurItemTitle;
 
+- (void)setMCurMSRDevices:(NSDictionary*)dict;
+
 - (void)startDLNA;
 - (void)stopDLNA;
 
+- (void)playMusic:(MPMediaItem*)mediaItem;
 
-- (BOOL)soundBoxIsFound:(id)device;
--(BOOL)soundBoxIsFoundWithDevUUid:(NSString*)deviceUUID;
-
-- (BOOL)soundBoxCanPlaySong;
 
 - (void)insertSongItemToPlayList:(id)song; //自动触发播放第一首音乐
 - (void)insertSongsToPlayList:(NSArray *)songs; //自动触发播放第一首音乐

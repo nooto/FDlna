@@ -4,28 +4,18 @@
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            scope = "0"
-            stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FDlna/FLocalMusicServices.m"
-            timestampString = "574758032.939909"
+            filePath = "FDlna/DLNA/ItunesMusicDMSDelegate.mm"
+            timestampString = "575206192.209206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "-queryMediaDatasWithCompletion:"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "-onBrowseDirectChildren:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FDlna/FLocalMusicServices.m"
-            timestampString = "574758032.940335"
+            filePath = "FDlna/DLNA/ItunesMusicDMSDelegate.mm"
+            timestampString = "575206192.209255"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "-queryMediaDatasWithCompletion:"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-onBrowseMetadata:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FDlna/DLNA/SOSoundBoxPlayer.m"
-            timestampString = "574939655.402916"
+            filePath = "FDlna/DLNA/ItunesMusicDMSDelegate.mm"
+            timestampString = "575206192.209307"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "-playMusic:"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "-loadSongs"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -67,13 +57,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "FDlna/DLNA/SOSoundBoxPlayer.m"
-            timestampString = "574939655.4032021"
+            filePath = "FDlna/DLNA/ItunesMusicDMSDelegate.mm"
+            timestampString = "575206192.209357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
-            landmarkName = "-getLocalUrlWithMeidaItem:"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "-getDocumentPath"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FDlna/DLNA/PltMediaServerObject.mm"
+            timestampString = "575210092.7906179"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "OnSearchContainer(PLT_ActionReference&amp; action, const char* container_id, const char* search_criteria, const char* filter, NPT_UInt32 starting_index, NPT_UInt32 requested_count, const char* sort_criteria, const PLT_HttpRequestContext&amp; context)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

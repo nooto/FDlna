@@ -69,12 +69,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FMusicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FMusicTableViewCell class])];
     [cell setMItem: [self.mSourceDatas objectAtIndex:indexPath.row]];
+//    [[SOSoundBoxPlayer sharedPlayer] playMusic:cell.mItem];
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row < self.mSourceDatas.count) {
+        [[SOSoundBoxPlayer sharedPlayer] playMusic:[self.mSourceDatas objectAtIndex:indexPath.row]];
+    }
 }
 
 

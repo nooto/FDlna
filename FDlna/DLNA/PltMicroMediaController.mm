@@ -1377,7 +1377,8 @@ OnSetAVTransportURIResult(
     {
         NSInteger result = res;
         NSString *deviceUUID = [NSString stringWithUTF8String:device->GetUUID()];
-        
+        NSString *deviceUUID1 = [NSString stringWithUTF8String:device->GetModelDescription()];
+
         SHEventResultResponse *capsule = [[SHEventResultResponse alloc]initWithResult:result DeviceUUID:deviceUUID UserData: (__bridge id)userdata];
         
         [m_Target.delegate setAVTransponrtResponse:capsule];

@@ -62,6 +62,7 @@ static NSString * const kKeyGender = @"gender";
 static NSString * const kKeyAvatar = @"avatar";
 static NSString * const kKeyBirthday = @"birthday";
 
+
 static NSString * const kKeyRoomName = @"room_name";
 static NSString * const kKeyRoomIcon = @"room_icon";
 static NSString * const kKeyIsDefault = @"is_default";

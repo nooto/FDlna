@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 
 
+#define WeakSelf(type) autoreleasepool{} __weak __typeof__(type) weakSelf = type;
+#define StrongSelf(type) autoreleasepool{} __strong __typeof__(type) strongSelf = type;
+
 
 #define NAVBAR_H   [SOTools getNavBarHight]
 #define SCREEN_BOUNDS           [UIScreen mainScreen].bounds

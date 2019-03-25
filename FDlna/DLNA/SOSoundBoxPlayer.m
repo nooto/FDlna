@@ -23,12 +23,13 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 @property (nonatomic, strong) NSMutableArray *mArrSoundboxs;//需要播放的音箱设备。
 @property (nonatomic, strong) id  mMediatServerDevice;//本机当做媒体服务器。deviceUUID 是真实设备ID
 @property (nonatomic, copy)     NSString *ServerName;
-
-@property (nonatomic, strong) NSMutableArray *mArrCanPlaySoundBox;//通过DLNA搜索到且可播放的音箱设备。
+@property (nonatomic, strong) NSDictionary *mCurMSRDevices;//当前正在播放的设备。
 
 @property (nonatomic, assign) BOOL  isOnlinePlaying;// 在线or 本地。
 @property (nonatomic) NSMutableArray *mArrSongList;
 @property (nonatomic, copy) NSString *mCurSongUrl;
+
+
 
 @property (nonatomic, copy) actionResultBlock setVolumeResult;
 @property (nonatomic, copy) void(^getVolumeResult)(SHGetVolumResponse *response);
@@ -73,13 +74,15 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
         self.ServerName = [[[NSUUID UUID] UUIDString] substringToIndex:12];
         _mArrSongList = [NSMutableArray new];
         _mDMRCountrol = [[SHDMRControl alloc] init];
-        [_mDMRCountrol setDelegate:self];
         _lock = [[NSLock alloc] init];
         self.voluneFlag = STATUES_setVolumeSuccess;//默认设置成功。
-        //        self.processFlag = STATUES_setProcessSuccess;//默认设置成功。
-        [self addObserver:self forKeyPath:@"mArrCanPlaySoundBox" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        [_mDMRCountrol setDelegate:self];
+        [_mDMRCountrol intendStartItunesMusicServerWithServerName:self.ServerName]; //重新创建
+        [_mDMRCountrol start];
+        
+        [self addObserver:self forKeyPath:@"mArrSoundboxs" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
         //先发送一个通知 告知 离线。
-        [self SendPlayerEventBlockWithEvent: STATUES_canPlaySoundBoxCount eventData:@(self.mArrCanPlaySoundBox.count)];
+//        [self SendPlayerEventBlockWithEvent: STATUES_canPlaySoundBoxCount eventData:@(self.mArrCanPlaySoundBox.count)];
         
         
         
@@ -96,19 +99,46 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     return _mArrSoundboxs;
 }
 
-- (NSMutableArray*)mArrCanPlaySoundBox {
-    if (!_mArrCanPlaySoundBox) {
-        _mArrCanPlaySoundBox = [[NSMutableArray alloc] init];
-    }
-    return _mArrCanPlaySoundBox;
-    
+- (void)setMCurMSRDevices:(NSDictionary *)mCurMSRDevices{
+    _mCurMSRDevices = mCurMSRDevices;
+    [self.mDMRCountrol getCurrentRender];
+    [self.mDMRCountrol chooseRenderWithUUID:mCurMSRDevices[kKeyDeviceUUID]];
 }
-
 
 - (void)setCurrentItem:(id)item {
     _currentItem = item;
     [self playMusic:item];
 }
+
+- (void)playMusic:(MPMediaItem *)mediaItem{
+    self.mCurSongUrl = [self transformMusicItemToUrlstrling:mediaItem];
+    if ([mediaItem isKindOfClass:[MPMediaItem class]]) {
+//        MPMediaItem *song = (MPMediaItem*)mediaItem;
+//        NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
+    }
+    if (_mCurSongUrl.length <= 0) {
+        return;
+    }
+//    self.mCurSongUrl = @"http://music.taihe.com/album/613235850?pst=shoufa";
+    //
+    NSDictionary *dict1 = [self.mDMRCountrol getCurrentRender];
+    NSDictionary *dict = [self.mDMRCountrol getCurrentServer];
+    if (dict == nil || dict1 == nil) {
+        return;
+    }
+    [_mDMRCountrol chooseServerWithUUID:self.mMediatServerDevice[kKeyDeviceUUID]];
+    [self renderPlay:_mCurSongUrl isOnlinePlay:NO];
+
+    NSInteger  success =  [_mDMRCountrol renderSetAVTransportWithURI:self.mCurSongUrl metaData:nil];
+     success = [_mDMRCountrol setRendererNextAVTransportURI:self.mCurSongUrl];
+    success =  [_mDMRCountrol renderPlay];
+    NSLog(@"playMusic: %ld", (long)success);
+//    if (![self.mMediatServerDevice isKindOfClass:[self class]]) {
+//        [_mDMRCountrol intendStartItunesMusicServerWithServerName:self.ServerName]; //重新创建
+//        [_mDMRCountrol start];
+//    }
+}
+
 
 #pragma mark  - 内部功能函数。
 -(BOOL)isSameToCurMeida:(SHMediaInfoResponse*)response{
@@ -120,15 +150,9 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 -(NSString*)getCurrentRenderUUID{
     id device = [_mDMRCountrol getCurrentRender];
-    return nil;
+    return device;
 }
 
--(NSString*)deviceUUIDwithrenderUUID:(NSString*)uuid{
-    
-    for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
-    }
-    return nil;
-}
 
 - (NSString *)URLEncodedString:(NSString *)str {
     NSString *encodedString = (NSString *)
@@ -144,10 +168,9 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 - (NSString *)getLocalUrlWithMeidaItem:(MPMediaItem *)item {
     if (![item isKindOfClass:[MPMediaItem class]]) return nil;
     
-//    SHDeviceModel *deviceModel = [_mDMRCountrol getCurrentServer];
-    NSString *baseUrl = nil;
-//    NSString *baseUrl = deviceModel.attribute[kKeyDLNAMSUrl];
-    if (baseUrl.length == 0) return nil;
+    NSDictionary *deviceModel = [_mDMRCountrol getCurrentServer];
+    NSString *baseUrl = deviceModel[kKeyDLNAMSUrl];
+//    if (baseUrl.length == 0) return nil;
     
     NSURL *assetURL = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSString *itemUrl = assetURL.absoluteString;
@@ -171,40 +194,40 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     return songurl;
 }
 
-- (void)playMusic:(id)musicData {
-    self.mCurSongUrl = [self transformMusicItemToUrlstrling:musicData];
-    if ([musicData isKindOfClass:[MPMediaItem class]]) {
-        MPMediaItem *song = (MPMediaItem*)musicData;
-        NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
-    }
-    if (_mCurSongUrl.length <= 0) {
-        return;
-    }
-    
-    [self SendPlayerEventBlockWithEvent:STATUES_WaitingToPlay
-                              eventData:nil];
-    
-    
-    self.currentStatus = PLAY_WaitingToPlay;
-    if ([musicData isKindOfClass:[MPMediaItem class]]) {
-        self.isOnlinePlaying = NO;
+//- (void)playMusic:(MPMediaItem *)mediaItem{
+//    self.mCurSongUrl = [self transformMusicItemToUrlstrling:mediaItem];
+//    if ([mediaItem isKindOfClass:[MPMediaItem class]]) {
+//        MPMediaItem *song = (MPMediaItem*)mediaItem;
+//        NSString *songTitle = [song valueForProperty: MPMediaItemPropertyTitle];
+//    }
+//    if (_mCurSongUrl.length <= 0) {
+//        return;
+//    }
+//
+//    [self SendPlayerEventBlockWithEvent:STATUES_WaitingToPlay
+//                              eventData:nil];
+//
+//
+//    self.currentStatus = PLAY_WaitingToPlay;
+//    if ([mediaItem isKindOfClass:[MPMediaItem class]]) {
+//        self.isOnlinePlaying = NO;
         //本地播放需要 手机做为媒体服务器
-        if (![self.mMediatServerDevice isKindOfClass:[self class]]) {
-            [_mDMRCountrol intendStartItunesMusicServerWithServerName:self.ServerName]; //重新创建
-            [_mDMRCountrol start];
-            [self SendPlayerEventBlockWithEvent:STATUES_LocationPlayNoServer
-                                      eventData:nil];
-        }
-        else{
-//            [_mDMRCountrol chooseServerWithUUID:self.mMediatServerDevice.deviceUUID];
-            [self renderPlay:_mCurSongUrl isOnlinePlay:self.isOnlinePlaying];
-        }
-    }
-    else if ([musicData isKindOfClass:[NSString class]]) {
-        self.isOnlinePlaying = YES;
-        [self renderPlay:_mCurSongUrl isOnlinePlay:self.isOnlinePlaying];
-    }
-}
+//        if (![self.mMediatServerDevice isKindOfClass:[self class]]) {
+//            [_mDMRCountrol intendStartItunesMusicServerWithServerName:self.ServerName]; //重新创建
+//            [_mDMRCountrol start];
+//            [self SendPlayerEventBlockWithEvent:STATUES_LocationPlayNoServer
+//                                      eventData:nil];
+//        }
+//        else{
+////            [_mDMRCountrol chooseServerWithUUID:self.mMediatServerDevice.deviceUUID];
+//            [self renderPlay:_mCurSongUrl isOnlinePlay:self.isOnlinePlaying];
+//        }
+//    }
+//    else if ([musicData isKindOfClass:[NSString class]]) {
+//        self.isOnlinePlaying = YES;
+//        [self renderPlay:_mCurSongUrl isOnlinePlay:self.isOnlinePlaying];
+//    }
+//}
 
 - (void)setNextSongToPlay {
     NSInteger index = [_mArrSongList indexOfObject:_currentItem];
@@ -220,10 +243,10 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     if (Data) {
         [dictionary setValue:Data forKey:@"kEventStatues"];
     }
-    NSString *deviceUUID = [self getCurrentRenderUUID];
-    if (deviceUUID.length > 0) {
-        [dictionary setValue:deviceUUID forKey:@"kKeyDeviceUUID"];
-    }
+//    NSString *deviceUUID = [self getCurrentRenderUUID];
+//    if (deviceUUID.length > 0) {
+//        [dictionary setValue:deviceUUID forKey:@"kKeyDeviceUUID"];
+//    }
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:kPlayerDidChangeNotificationName object:dictionary];
     });
@@ -231,37 +254,14 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"mArrCanPlaySoundBox"])
+    if ([keyPath isEqualToString:@"mArrSoundboxs"])
     {
-        [self SendPlayerEventBlockWithEvent: STATUES_canPlaySoundBoxCount eventData:@(self.mArrCanPlaySoundBox.count)];
+        [self SendPlayerEventBlockWithEvent: STATUES_canPlaySoundBoxCount eventData:@(self.mArrSongList.count)];
     }
 }
 
 
 #pragma mark -  状态支持
--(BOOL)soundBoxCanPlaySong{
-    if (self.mArrCanPlaySoundBox.count <= 0) {
-        return NO;
-    }
-    return YES;
-}
-
--(BOOL)soundBoxIsFoundWithDevUUid:(NSString*)deviceUUID{
-    if (![deviceUUID isKindOfClass:[NSString class]] ) {
-        return NO;
-    }
-    
-    NSPredicate *predict = [NSPredicate predicateWithFormat:@"SELF.deviceUUID == %@", deviceUUID];
-    NSArray *arr = [self.mArrCanPlaySoundBox filteredArrayUsingPredicate:predict];
-    if (arr.count) {
-        return YES;
-    }
-    return NO;
-}
-
-
-
-
 - (EPlayStatues)playerStatus {
     return self.currentStatus;
 }
@@ -273,9 +273,6 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 }
 
 - (void)stopDLNA{
-    [self removeObserver:self forKeyPath:@"mArrCanPlaySoundBox"];
-    [self.mArrCanPlaySoundBox removeAllObjects];
-    _mArrCanPlaySoundBox = nil;
     [self.mArrSongList removeAllObjects];
     _mArrSongList = nil;
     [self.mArrSoundboxs removeAllObjects];
@@ -347,28 +344,33 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 // 播放
 - (void)renderPlay:(NSString *)url isOnlinePlay:(BOOL)isOnlinePlay{
     //没有可播放的设备 重新搜索播放。
-    if (self.mArrCanPlaySoundBox.count <= 0) {
+    if (self.mArrSoundboxs.count <= 0) {
         [_mDMRCountrol start];
         [self SendPlayerEventBlockWithEvent:STATUES_NoPlayDevice eventData:nil];
         return;
     }
     //    self.playStatue = PLAY_playing;
-    //同时播放可播放的设备。
-    for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
-//        SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
-//        [_mDMRCountrol chooseRenderWithUUID:model.attribute[kKeyAudioUuid]];
+//    //同时播放可播放的设备。
+//    for (NSInteger i = 0; i < self.mArrSoundboxs.count; i++) {
+////        SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
+//        [_mDMRCountrol chooseRenderWithUUID:self.mMediatServerDevice[kKeyAudioUuid]];
 //        NSInteger  success =  [_mDMRCountrol renderSetAVTransportWithURI:url metaData:nil];
-        NSInteger success =  [_mDMRCountrol renderPlay];
-        [self SendPlayerEventBlockWithEvent:success == 0 ? STATUES_playCtrlSendSuccess:STATUES_playCtrlSendFaild
-                                  eventData:nil];
-    }
+//        NSInteger success =  [_mDMRCountrol renderPlay];
+//        [self SendPlayerEventBlockWithEvent:success == 0 ? STATUES_playCtrlSendSuccess:STATUES_playCtrlSendFaild
+//                                  eventData:nil];
+//    }
 }
 
 -(void)setAVTransponrtResponse:(SHEventResultResponse *)response{
+    NSLog(@"setAVTransponrtResponse: %ld", (long)response.result);
+    if (response.result == 0) {
+        [_mDMRCountrol renderPlay];
+    }
 }
 
 
 -(void)playResponse:(SHEventResultResponse *)response{
+    NSLog(@"playResponse: %ld", (long)response.result);
     [self SendPlayerEventBlockWithEvent: response.result == 0 ? STATUES_playResponseSuccess :  STATUES_playResponseFaild
                               eventData:nil];
 }
@@ -378,18 +380,18 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 - (void)pausePlayerWithSeek:(NSInteger)seek{
     if (self.currentStatus == PLAY_playing) {
         self.mCurSeek = seek;
-        for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
+//        for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
 //            SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
 //            [_mDMRCountrol  chooseRenderWithUUID:model.attribute[kKeyAudioUuid]];
 //            NSInteger  success =  [_mDMRCountrol renderPause];
 //            SHLogInfo(kLogModuleDaVoiceBox, @"播放音乐暂停 指令发送 : %@ %d",success == 0 ?@"success":@"faild",success);
 //            [self SendPlayerEventBlockWithEvent: success == 0 ?STATUES_pauseCtrlSendSuccess:STATUES_pauseCtrlSendFaild
 //                                      eventData:nil];
-        }
+//        }
     }
     else{
-        [self SendPlayerEventBlockWithEvent:STATUES_pauseNoNeed
-                                  eventData:nil];
+//        [self SendPlayerEventBlockWithEvent:STATUES_pauseNoNeed
+//                                  eventData:nil];
     }
     
     self.currentStatus = PLAY_pasue;
@@ -397,7 +399,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 -(void)pausePlayer{
     if (self.currentStatus == PLAY_playing) {
-        for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
+        for (NSInteger i = 0; i < self.mArrSoundboxs.count; i++) {
 //            SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
 //            [_mDMRCountrol  chooseRenderWithUUID:model.attribute[kKeyAudioUuid]];
 //            NSInteger  success =  [_mDMRCountrol renderPause];
@@ -424,7 +426,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 // 播放停止
 -(void)stopPlayer{
     if (self.currentStatus == PLAY_playing) {
-        for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
+        for (NSInteger i = 0; i < self.mArrSoundboxs.count; i++) {
 //            SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
 //            [_mDMRCountrol chooseRenderWithUUID:model.attribute[kKeyAudioUuid]];
             int success =  [_mDMRCountrol renderStop];
@@ -451,7 +453,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 // 设置音量
 - (void)setVolume:(int)volume WithResult:(actionResultBlock)setVolumeResult{
     _setVolumeResult = setVolumeResult;
-    for (NSInteger i = 0; i < self.mArrCanPlaySoundBox.count; i++) {
+    for (NSInteger i = 0; i < self.mArrSoundboxs.count; i++) {
 //        SHDeviceModel *model = self.mArrCanPlaySoundBox[i];
 //        [_mDMRCountrol  chooseRenderWithUUID:model.attribute[kKeyAudioUuid]];
         NSTimeInterval flag = [SOTools milliSecondTimestamp];
@@ -465,7 +467,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     if ([response.userData integerValue] >= self.voluneFlag) {
         //        self.voluneFlag = STATUES_setVolumeSuccess;
         if (_setVolumeResult) {
-            _setVolumeResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
+//            _setVolumeResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
         }
     }
 }
@@ -474,6 +476,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 - (void)getVolume:(void(^)(SHGetVolumResponse *response))getVolumeResult{
     _getVolumeResult = getVolumeResult;
     int success = [_mDMRCountrol renderGetVolume];
+    NSLog(@"%d", success);
     
 }
 
@@ -496,7 +499,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 -(void)setMuteResponse:(SHEventResultResponse *)response{
     if (_setMuteResult) {
-        _setMuteResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
+//        _setMuteResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
     }
 }
 
@@ -547,7 +550,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 -(void)OnSeekResult:(SHEventResultResponse *)response{
     if (_setProgressResult) {
-        _setProgressResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
+//        _setProgressResult([self deviceUUIDwithrenderUUID:response.deviceUUID], response.result);
     }
     //    }
 }
@@ -577,6 +580,8 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 -(void)getCurMediaInfo:(void (^)(SHMediaInfoResponse *))getCurMediaInfo{
     _getCurMediaInfo = getCurMediaInfo;
     int success = [_mDMRCountrol getRendererMediaInfo];
+    NSLog(@"%d", success);
+
 }
 
 -(void)OnGetMediaInfoResult:(SHMediaInfoResponse *)response{
@@ -588,6 +593,8 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 - (void)getRendererDeviceCapabilities:(void(^)(SHDeviceCapabilitiesResponse *response))deviceCapabilities{
     _deviceCapabilities = deviceCapabilities;
     int success = [_mDMRCountrol getRendererDeviceCapabilities];
+    NSLog(@"%d", success);
+
 }
 
 -(void)OnGetDeviceCapabilitiesResult:(SHDeviceCapabilitiesResponse *)response{
@@ -641,23 +648,21 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 #pragma mark - 搜索服务设备 。。
 -(void)OnMSAdded{
+   @WeakSelf(self);
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *arrActiveServers = [_mDMRCountrol getActiveServers];
-        for (NSInteger i = 0 ; i < arrActiveServers.count; i ++) {
-//            SHDeviceModel *tempDevice = arrActiveServers[i];
-//
-//            //判断是自己的手机服务器
-//            if ([tempDevice.deviceName containsString:weakself.ServerName]) {
-//                SHDeviceModel *curDevice = [_mDMRCountrol getCurrentServer];
-//                if (![curDevice.deviceUUID isEqualToString:tempDevice.deviceUUID]) {
-//                    [_mDMRCountrol chooseServerWithUUID:tempDevice.deviceUUID];
-//                    weakself.mMediatServerDevice = tempDevice;
+        @StrongSelf(weakSelf);
+        NSArray *arrActiveServers = [strongSelf.mDMRCountrol getActiveServers];
+        for (NSInteger i = 0 ; i < arrActiveServers.count; i++) {
+            NSDictionary *tempDevice = arrActiveServers[i];
+            //判断是自己的手机服务器
+//            if ([tempDevice[kKeyName] containsString:self.ServerName]) {
+//                NSDictionary *curDevice = [_mDMRCountrol getCurrentServer];
+//                if (![curDevice[kKeyDeviceUUID] isEqualToString:tempDevice[kKeyDeviceUUID]]) {
+                    [strongSelf.mDMRCountrol chooseServerWithUUID:tempDevice[kKeyDeviceUUID]];
+                    strongSelf.mMediatServerDevice = tempDevice;
+//                    break;
 //                }
-//                else{
-//                    weakself.mMediatServerDevice = curDevice;
-//                }
-//
-//                //
+                //
 //                if ([weakself.mMediatServerDevice isKindOfClass:[SHDeviceModel class]]) {
 //                    SHLogInfo(kLogModuleDaInterComm, @"发现可播放服务器:%@, %@", weakself.mMediatServerDevice.deviceUUID, weakself.mMediatServerDevice.deviceName);
 //                    if (weakself.currentStatus == PLAY_WaitingToPlay) {
@@ -667,7 +672,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 //
 //                break;
 //            }
-//
+
         }
     });
 }
@@ -697,16 +702,17 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
             }
         }
     }
-    
 }
 
+
 -(void)onDMRRemoved:(NSString *)deviceUUID{
-    for (NSInteger i = self.mArrCanPlaySoundBox.count -1; i >= 0; i--) {
+    for (NSInteger i = self.mArrSoundboxs.count -1; i >= 0; i--) {
     }
 }
 
 -(void)DMRStateViriablesChanged:(NSArray<SHEventParamsResponse *> *)response{
     for (SHEventParamsResponse *paramsResponse in response) {
+        NSLog(@"DMRStateViriablesChanged: %@", paramsResponse.eventName);
         //音量变化
         if ([paramsResponse.eventName isEqualToString:@"Volume"]){
             self.voluneFlag -- ;
@@ -737,7 +743,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
                     for (NSInteger i = 0; i < self.mArrSongList.count; i ++) {
                         id songData = self.mArrSongList[i];
                         if ([response.cur_uri isEqualToString:[self transformMusicItemToUrlstrling:songData]]) {
-                            _currentItem = songData;
+                            self.currentItem = songData;
                             [self SendPlayerEventBlockWithEvent:STATUES_Playing
                                                       eventData:nil];
                             

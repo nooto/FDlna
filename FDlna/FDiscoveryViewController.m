@@ -27,11 +27,17 @@
     [self.mNavView.mRightButton setTitle:@"重新查找" forState:UIControlStateNormal];
     [self.mNavView.mRightButton addTarget:self action:@selector(rightButtonAciont:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChangeNotification:) name:kPlayerDidChangeNotificationName object:nil];
 }
 
 - (void)rightButtonAciont:(UIButton*)sender{
     [[SOSoundBoxPlayer sharedPlayer] stopDLNA];
     [[SOSoundBoxPlayer sharedPlayer] startDLNA];
+}
+
+- (void)playerDidChangeNotification:(NSNotification*)notiyf{
+    [self.mTableView reloadData];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -71,6 +77,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row < [SOSoundBoxPlayer sharedPlayer].mArrSoundboxs.count) {
+        NSDictionary *dict = [SOSoundBoxSharedPlayer.mArrSoundboxs objectAtIndex:indexPath.row];
+        if (![dict[kKeyDeviceUUID] isEqualToString:SOSoundBoxSharedPlayer.mCurMSRDevices[kKeyDeviceUUID]]) {
+            [[SOSoundBoxPlayer sharedPlayer] setMCurMSRDevices:dict];
+        }
+    }
 }
 
 

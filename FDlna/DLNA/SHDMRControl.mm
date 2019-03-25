@@ -10,7 +10,7 @@
 #import "PltMicroMediaController.h"
 #import <Platinum/Platinum.h>
 #import "ItunesMusicDMSDelegate.h"
-
+#import "SOBaseCode.h"
 @implementation SHDMRControl
 {
     PLT_UPnP * upnp;
@@ -46,7 +46,7 @@
 {
     if (!upnp->IsRunning()) {
        NPT_Result result =  upnp->Start();
-        NSLog(@"UPnP Service is starting! %zd",result);
+        NSLog(@"UPnP Service is starting! %d",result);
     }else{
         NSLog(@"UPnP Service is starting!");
     }
@@ -90,10 +90,10 @@
 - (void)intendStartItunesMusicServerWithServerName:(NSString *)theName {
     itunesServer = [[PLT_MediaServerObject alloc] initServerSelfDelegateWithServerName:theName];
     itunesDMSDelegate = [[ItunesMusicDMSDelegate alloc] init];
-//    [itunesDMSDelegate saveItuneMusicToServerDic];
+    [itunesDMSDelegate saveItuneMusicToServerDic];
     [itunesServer setDelegate:itunesDMSDelegate];
     NPT_Result result =  upnp->AddDevice([itunesServer getDevice]);
-    NSLog(@"create  MusicServerServerName--%@  result:%zd", theName, result);
+    NSLog(@"create  MusicServerServerName--%@  result:%d", theName, result);
 }
 
 /**
@@ -106,11 +106,13 @@
     const PLT_StringMap rendersNameTable = controller->getMediaServersNameTable();
     NPT_List<PLT_StringMapEntry *>::Iterator entry = rendersNameTable.GetEntries().GetFirstItem();
     while (entry) {
-//        SHDeviceModel * renderModel = [[SHDeviceModel alloc] init];
+        NSMutableDictionary * renderModel = [[NSMutableDictionary alloc] init];
+        [renderModel setValue:[NSString stringWithUTF8String:(const char *)(*entry)->GetValue()] forKey:kKeyName];
+        [renderModel setValue:[NSString stringWithUTF8String:(const char *)(*entry)->GetKey()] forKey:kKeyDeviceUUID];
 //        renderModel.deviceName = [NSString stringWithUTF8String:(const char *)(*entry)->GetValue()];
 //        renderModel.deviceUUID = [NSString stringWithUTF8String:(const char *)(*entry)->GetKey()];
 //        renderModel.attribute =@{@"audio_uuid":renderModel.deviceUUID};
-//        [renderArray addObject:renderModel];
+        [renderArray addObject:renderModel];
         ++entry;
     }
     return renderArray;
@@ -152,7 +154,7 @@
         NSString * uuid = [NSString stringWithUTF8String:device->GetUUID()];
 
         NSString * baseURL = [NSString stringWithUTF8String:device->GetURLBase().ToString()];
-//        NSString * GetLocalIP = [NSString stringWithUTF8String:device->GetLocalIP().ToString()];
+        NSString * GetLocalIP = [NSString stringWithUTF8String:device->GetLocalIP().ToString()];
 //        NSString * GetLocalIP1 = [NSString stringWithUTF8String:device->GetIconUrl()];
 //        NSString * descriptionURL = [NSString stringWithUTF8String:device->GetDescriptionUrl()];
 
@@ -165,6 +167,11 @@
          NSString * serialNumber = [NSString stringWithUTF8String:device->m_SerialNumber];
          NSString * descriptionURL = [NSString stringWithUTF8String:device->GetDescriptionUrl()];
          */
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:3];
+        [dict setValue:baseURL forKey:kKeyDLNAMSUrl];
+        [dict setValue:name forKey:kKeyName];
+        [dict setValue:uuid forKey:kKeyDeviceUUID];
+        [dict setValue:GetLocalIP forKey:kKeyIP];
         //        SHRenderDeviceModel * renderDevice = [[SHRenderDeviceModel alloc] initWithName:name UUID:uuid Manufacturer:manufacturer ModelName:modelName ModelNumber:modelNumber SerialNumber:serialNumber DescriptionURL:descriptionURL];
         
 //        SHDeviceModel *renderDevice = [[SHDeviceModel alloc] init];
@@ -173,8 +180,7 @@
 //        if (baseURL.length > 0) {
 //            renderDevice.attribute = @{kKeyDLNAMSUrl:baseURL};
 //        }
-//        return renderDevice;
-        return nil;
+        return dict;
     }else{
         NSLog(@"Render device is nil in %s",__FUNCTION__);
         return nil;
@@ -267,6 +273,10 @@
         NSString * serialNumber = [NSString stringWithUTF8String:device->m_SerialNumber];
         NSString * descriptionURL = [NSString stringWithUTF8String:device->GetDescriptionUrl()];
         */
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:2];
+        [dict setValue:name forKey:kKeyName];
+        [dict setValue:uuid forKey:kKeyDeviceUUID];
+        return dict;
 //        SHRenderDeviceModel * renderDevice = [[SHRenderDeviceModel alloc] initWithName:name UUID:uuid Manufacturer:manufacturer ModelName:modelName ModelNumber:modelNumber SerialNumber:serialNumber DescriptionURL:descriptionURL];
 //        SHDeviceModel *renderDevice = [[SHDeviceModel alloc] init];
 //        renderDevice.deviceName = name;
