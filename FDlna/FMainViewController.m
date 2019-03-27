@@ -28,7 +28,8 @@
     [self.mNavView setBackgroundColorClear];
     [self.mNavView setTitle:@"iTunes Music"];
     self.mNavView.mLeftButton.hidden = YES;
-    [self.mNavView.mRightButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.mNavView.mRightButton setTitle:nil forState:UIControlStateNormal];
+    [self.mNavView.mRightButton setImage:[UIImage imageNamed:@"img_nodevice"] forState:UIControlStateNormal];
     [self.mNavView.mRightButton addTarget:self action:@selector(rightButtonAciont:) forControlEvents:UIControlEventTouchUpInside];
     
     [self requestLocalMusicData];

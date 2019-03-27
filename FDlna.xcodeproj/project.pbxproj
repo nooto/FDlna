@@ -37,6 +37,7 @@
 		E2750FAC223F7F080031DD56 /* FMusicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750FAB223F7F070031DD56 /* FMusicTableViewCell.m */; };
 		E295A80C22421CD400F8006C /* FDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E295A80B22421CD400F8006C /* FDiscoveryViewController.m */; };
 		E2C3023B2249D52200C44474 /* FMainEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3023A2249D52200C44474 /* FMainEmptyView.m */; };
+		E2C3023F224B701700C44474 /* SOWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3023E224B701700C44474 /* SOWaterWaveView.m */; };
 		EA77738D6B702217705C022E /* libPods-FDlna.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +133,8 @@
 		E295A80B22421CD400F8006C /* FDiscoveryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDiscoveryViewController.m; sourceTree = "<group>"; };
 		E2C302392249D52200C44474 /* FMainEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMainEmptyView.h; sourceTree = "<group>"; };
 		E2C3023A2249D52200C44474 /* FMainEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMainEmptyView.m; sourceTree = "<group>"; };
+		E2C3023D224B701700C44474 /* SOWaterWaveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOWaterWaveView.h; sourceTree = "<group>"; };
+		E2C3023E224B701700C44474 /* SOWaterWaveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SOWaterWaveView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +171,6 @@
 				4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */,
 				2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -215,6 +217,8 @@
 				E23876652244E0F9004F4483 /* FDiscoveryViewCell.m */,
 				E2C302392249D52200C44474 /* FMainEmptyView.h */,
 				E2C3023A2249D52200C44474 /* FMainEmptyView.m */,
+				E2C3023D224B701700C44474 /* SOWaterWaveView.h */,
+				E2C3023E224B701700C44474 /* SOWaterWaveView.m */,
 				E295A80E22421DBC00F8006C /* DLNA */,
 				E2750F97223B8B600031DD56 /* SONavigationView */,
 				E2750F68223B885A0031DD56 /* Assets.xcassets */,
@@ -458,6 +462,7 @@
 				E2750FA3223B904A0031DD56 /* UIDevice+SO.m in Sources */,
 				E2750F9D223B8C9B0031DD56 /* SONavButton.m in Sources */,
 				E2750FAC223F7F080031DD56 /* FMusicTableViewCell.m in Sources */,
+				E2C3023F224B701700C44474 /* SOWaterWaveView.m in Sources */,
 				E2750F6F223B885A0031DD56 /* main.m in Sources */,
 				E238765922447D23004F4483 /* SHEventParamsResponse.m in Sources */,
 				E238765522447D23004F4483 /* ItunesMusicDMSDelegate.mm in Sources */,

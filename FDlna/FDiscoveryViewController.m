@@ -11,11 +11,12 @@
 #import "FLocalMusicServices.h"
 #import "SOSoundBoxPlayer.h"
 #import "FDiscoveryViewCell.h"
-
-@interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource>
+#import "SOWaterWaveView.h"
+@interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *mTableView;
 @property (nonatomic, strong)  NSArray *mSourceDatas;
+@property (nonatomic,strong) SOWaterWaveView *waveView;
 @end
 
 @implementation FDiscoveryViewController
@@ -85,16 +86,26 @@
     }
 }
 
+- (SOWaterWaveView*)waveView{
+    if (!_waveView) {
+        _waveView = [[SOWaterWaveView alloc] initWithFrame:CGRectMake(0, -200, SCREEN_W, 50)];
+        _waveView.backgroundColor = [UIColor grayColor];
+        [_waveView setFinishAnimate:^(BOOL isForce) {
+        }];
+    }
+    return _waveView;
+}
+
 
 - (UITableView*)mTableView{
     if (!_mTableView) {
-        _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, NAVBAR_H, SCREEN_W, SCREEN_H -NAVBAR_H) style:UITableViewStyleGrouped];
+        _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, NAVBAR_H, SCREEN_W, SCREEN_H - NAVBAR_H) style:UITableViewStyleGrouped];
         _mTableView.separatorColor = _mTableView.backgroundColor;
         _mTableView.backgroundColor = [UIColor clearColor];
         _mTableView.dataSource = self;
         _mTableView.delegate = self;
         [_mTableView registerClass:[FDiscoveryViewCell class] forCellReuseIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
-        
+        [_mTableView setTableHeaderView:self.waveView];
     }
     return _mTableView;
 }

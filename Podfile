@@ -5,8 +5,10 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 
 def commonkit
-    #pod 'SmartCommunity', :git => 'ssh://git@gitlab.egtest.cn:10022/smartCommunity_ios/SmartCommunity.git', :branch => 'feature/1.5.0'
+#    pod 'StepOHelper'
     pod 'StepOHelper', :path => '../StepOHelper'
+
+
 end
 
 target 'FDlna' do
