@@ -36,6 +36,8 @@
 		E2750FA9223F7C090031DD56 /* FLocalMusicServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = E2750FA8223F7C090031DD56 /* FLocalMusicServices.mm */; };
 		E2750FAC223F7F080031DD56 /* FMusicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750FAB223F7F070031DD56 /* FMusicTableViewCell.m */; };
 		E295A80C22421CD400F8006C /* FDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E295A80B22421CD400F8006C /* FDiscoveryViewController.m */; };
+		E2C3023B2249D52200C44474 /* FMainEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3023A2249D52200C44474 /* FMainEmptyView.m */; };
+		EA77738D6B702217705C022E /* libPods-FDlna.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FDlna.release.xcconfig"; path = "Target Support Files/Pods-FDlna/Pods-FDlna.release.xcconfig"; sourceTree = "<group>"; };
+		4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FDlna.debug.xcconfig"; path = "Target Support Files/Pods-FDlna/Pods-FDlna.debug.xcconfig"; sourceTree = "<group>"; };
+		BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FDlna.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2387645224395A3004F4483 /* Neptune.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Neptune.framework; sourceTree = "<group>"; };
 		E2387646224395A3004F4483 /* Platinum.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Platinum.framework; sourceTree = "<group>"; };
 		E238764922447D23004F4483 /* ItunesMusicDMSDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ItunesMusicDMSDelegate.mm; sourceTree = "<group>"; };
@@ -125,6 +130,8 @@
 		E2750FAB223F7F070031DD56 /* FMusicTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMusicTableViewCell.m; sourceTree = "<group>"; };
 		E295A80A22421CD400F8006C /* FDiscoveryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDiscoveryViewController.h; sourceTree = "<group>"; };
 		E295A80B22421CD400F8006C /* FDiscoveryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDiscoveryViewController.m; sourceTree = "<group>"; };
+		E2C302392249D52200C44474 /* FMainEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMainEmptyView.h; sourceTree = "<group>"; };
+		E2C3023A2249D52200C44474 /* FMainEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMainEmptyView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +141,7 @@
 			files = (
 				E2387648224395A3004F4483 /* Platinum.framework in Frameworks */,
 				E2387647224395A3004F4483 /* Neptune.framework in Frameworks */,
+				EA77738D6B702217705C022E /* libPods-FDlna.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +162,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F716B9A510F11AD8531A35B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */,
+				2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E2750F53223B88580031DD56 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +180,7 @@
 				E2750F82223B885A0031DD56 /* FDlnaUITests */,
 				E2750F5D223B88580031DD56 /* Products */,
 				E295A8132242208E00F8006C /* Frameworks */,
+				3F716B9A510F11AD8531A35B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -194,6 +213,8 @@
 				E295A80B22421CD400F8006C /* FDiscoveryViewController.m */,
 				E23876642244E0F9004F4483 /* FDiscoveryViewCell.h */,
 				E23876652244E0F9004F4483 /* FDiscoveryViewCell.m */,
+				E2C302392249D52200C44474 /* FMainEmptyView.h */,
+				E2C3023A2249D52200C44474 /* FMainEmptyView.m */,
 				E295A80E22421DBC00F8006C /* DLNA */,
 				E2750F97223B8B600031DD56 /* SONavigationView */,
 				E2750F68223B885A0031DD56 /* Assets.xcassets */,
@@ -266,6 +287,7 @@
 			children = (
 				E2387645224395A3004F4483 /* Neptune.framework */,
 				E2387646224395A3004F4483 /* Platinum.framework */,
+				BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -277,6 +299,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2750F88223B885A0031DD56 /* Build configuration list for PBXNativeTarget "FDlna" */;
 			buildPhases = (
+				16E815A9C905CA6E54F1C1CF /* [CP] Check Pods Manifest.lock */,
 				E2750F58223B88580031DD56 /* Sources */,
 				E2750F59223B88580031DD56 /* Frameworks */,
 				E2750F5A223B88580031DD56 /* Resources */,
@@ -395,11 +418,37 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16E815A9C905CA6E54F1C1CF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FDlna-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E2750F58223B88580031DD56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2C3023B2249D52200C44474 /* FMainEmptyView.m in Sources */,
 				E238765722447D23004F4483 /* PltMicroMediaController.mm in Sources */,
 				E2750F93223B88C20031DD56 /* FBaseViewController.m in Sources */,
 				E2750F64223B88580031DD56 /* ViewController.m in Sources */,
@@ -581,6 +630,7 @@
 		};
 		E2750F89223B885A0031DD56 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -610,6 +660,7 @@
 		};
 		E2750F8A223B885A0031DD56 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;

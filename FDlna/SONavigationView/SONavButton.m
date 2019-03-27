@@ -10,13 +10,13 @@
 
 @implementation SONavButton
 
--(id)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:frame]) {
-        self.imageSize = CGSizeMake(50, 35);
-        self.gapX = (3);
-    }
-    return self;
-}
+//-(id)initWithFrame:(CGRect)frame{
+//    if (self = [super initWithFrame:frame]) {
+//        self.imageSize = CGSizeMake(50, 35);
+//        self.gapX = (3);
+//    }
+//    return self;
+//}
 //-(CGRect)titleRectForContentRect:(CGRect)contentRect{
 //    //    CGRect rect = contentRect;
 //    CGFloat posX = self.gapX + self.imageSize.width+5;

@@ -33,5 +33,6 @@
 
 + (UInt64)milliSecondTimestamp;
 
++ (BOOL)openApplicationOpenSetting;
 @end
 

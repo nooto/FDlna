@@ -141,11 +141,9 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
 
 
 #pragma mark  - 内部功能函数。
--(BOOL)isSameToCurMeida:(SHMediaInfoResponse*)response{
-    if ([_mCurSongUrl isEqualToString:response.cur_uri]) {
-        return YES;
-    }
-    return NO;
+-(BOOL)isSameToCurMeida:(MPMediaItem*)mediaItem{
+    NSString *temPSongUrl = [self transformMusicItemToUrlstrling:mediaItem];
+    return [self.mCurSongUrl isEqualToString:temPSongUrl];
 }
 
 -(NSString*)getCurrentRenderUUID{

@@ -8,7 +8,8 @@
 
 #import "FBaseViewController.h"
 #import "SONavigationView/SONavigationView.h"
-@interface FBaseViewController () <SONavigationViewDelegate>
+#import <StepOHelper.h>
+@interface FBaseViewController () <SONavigationViewDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) SONavigationView *mNavView;
 @end
 
@@ -16,12 +17,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view addVerticalGradientWithColors:@[UIColorFromHexString(@"#0159D7"), UIColorFromHexString(@"#1EBBFD")] locations:nil];
     [self.view addSubview:self.mNavView];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.delegate = self;
     self.navigationController.navigationBarHidden = YES;
     // Do any additional setup after loading the view.
 }
 
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    // 判断要显示的控制器是否是自己
+//    BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:YES animated:animated];

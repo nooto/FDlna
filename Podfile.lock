@@ -1,0 +1,29 @@
+PODS:
+  - Masonry (1.1.0)
+  - StepOHelper (0.0.1):
+    - Masonry
+    - YYKit
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
+
+DEPENDENCIES:
+  - StepOHelper (from `../StepOHelper`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Masonry
+    - YYKit
+
+EXTERNAL SOURCES:
+  StepOHelper:
+    :path: "../StepOHelper"
+
+SPEC CHECKSUMS:
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  StepOHelper: 02c7bfcd21465c551061e8e7ad2527b6bf38ecc2
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
+
+PODFILE CHECKSUM: 3ad3400aeda54bd25867fccc54be8f56acbef0d9
+
+COCOAPODS: 1.6.0.beta.2

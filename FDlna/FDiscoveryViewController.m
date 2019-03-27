@@ -90,6 +90,7 @@
     if (!_mTableView) {
         _mTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, NAVBAR_H, SCREEN_W, SCREEN_H -NAVBAR_H) style:UITableViewStyleGrouped];
         _mTableView.separatorColor = _mTableView.backgroundColor;
+        _mTableView.backgroundColor = [UIColor clearColor];
         _mTableView.dataSource = self;
         _mTableView.delegate = self;
         [_mTableView registerClass:[FDiscoveryViewCell class] forCellReuseIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
@@ -97,12 +98,4 @@
     }
     return _mTableView;
 }
-
-- (void)requestLocalMusicData{
-    [[FLocalMusicServices sharedInstance]  fetchLocalMusicAssetsWithCompletion:^(NSArray *loacalItems) {
-        self.mSourceDatas =  loacalItems;
-        [self.mTableView reloadData];
-    }];
-}
-
 @end

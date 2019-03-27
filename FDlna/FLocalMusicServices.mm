@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 #import <Platinum/Platinum.h>
-
+#import <StepOHelper.h>
 @interface FLocalMusicServices ()
 @property (nonatomic, strong) NSArray *mSourctDatas;
 @end
@@ -30,16 +30,17 @@
 }
 
 #pragma mark - 本地音乐
-- (void)fetchLocalMusicAssetsWithCompletion:(void(^)(NSArray *loacalItems))completion {
-    
+- (void)fetchLocalMusicAssetsWithCompletion:(void(^)(BOOL isAccess, NSArray *loacalItems))completion {
     if (self.mSourctDatas.count) {
         if (completion) {
-            completion(self.mSourctDatas);
+            completion(YES, self.mSourctDatas);
         }
-    } else {
-        if (@available(iOS 9.3, *)) {
+        return;
+    }
+    
+    if (@available(iOS 9.3, *)) {
             MPMediaLibraryAuthorizationStatus status = [MPMediaLibrary authorizationStatus];
-            if (status == MPMediaLibraryAuthorizationStatusNotDetermined) {
+            if (status == MPMediaLibraryAuthorizationStatusNotDetermined || status == MPMediaLibraryAuthorizationStatusDenied) {
                 [MPMediaLibrary requestAuthorization:^(MPMediaLibraryAuthorizationStatus status) {
                     if (status == MPMediaLibraryAuthorizationStatusAuthorized) {
                         [self queryMediaDatasWithCompletion:completion];
@@ -52,13 +53,16 @@
             } else {
                 [self restrictedAccessToMediaLibraryWithCompletion:completion];
             }
-        } else {
-            [self queryMediaDatasWithCompletion:completion];
         }
+    else{
+        //查询数据。
+        [self queryMediaDatasWithCompletion:completion];
     }
+    
 }
 
-- (void)queryMediaDatasWithCompletion:(void(^)(NSArray *loacalItems))completion {
+
+- (void)queryMediaDatasWithCompletion:(void(^)(BOOL isAccess, NSArray *loacalItems))completion {
     
     MPMediaQuery *query = [[MPMediaQuery alloc] init];
     
@@ -76,24 +80,27 @@
         }
         self.mSourctDatas = result.copy;
         if (completion) {
-            completion(result.copy);
+            completion(YES,  result.copy);
         }
     });
 }
 
-- (void)restrictedAccessToMediaLibraryWithCompletion:(void(^)(NSArray *loacalItems))completion {
+- (void)restrictedAccessToMediaLibraryWithCompletion:(void(^)(BOOL isAccess, NSArray *loacalItems))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (completion) {
-            completion(nil);
-        }
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示"
-                                                                       message:[NSString stringWithFormat:@"请允许%@访问您的媒体库", [infoDictionary objectForKey:@"CFBundleDisplayName"]]
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"q允许" style:UIAlertActionStyleDefault handler:nil];
-        [alert addAction:action];
-        [RootViewController presentViewController:alert animated:YES completion:nil];
+        SOCustomAlertView *alertView =  [[SOCustomAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"请允许%@访问您的媒体库", [infoDictionary objectForKey:@"CFBundleDisplayName"]] leftButton:@"允许" rightButton:@"暂不允许"];
+//        [alertView.mLeftButton setBackgroundColor:UIColorFromHexString(@"#0159D7")];
+        [SOAlertManagerShareInstance showAlertView:alertView];
+        [alertView setDidSelcectButtonAtIndexWithTitle:^(NSInteger selectIndex, NSString *buttonText) {
+            if (selectIndex == 0) {
+                [SOTools openApplicationOpenSetting];
+            }
+            else{
+                if (completion) {
+                    completion(NO, nil);
+                }
+            }
+        }];
     });
 }
 

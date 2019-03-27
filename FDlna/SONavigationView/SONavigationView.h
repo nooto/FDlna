@@ -15,7 +15,7 @@
 @end
 
 
-@interface SONavigationView : UIImageView
+@interface SONavigationView : UIView
 @property (nonatomic, strong) UIView *mLineView;
 @property (nonatomic, copy) NSString *title;
 
@@ -31,5 +31,6 @@
 -(id)initWithdelegate:(id)delegate;
 
 -(void)setBackgroundColorClear;
+- (void)setNavBackgroundColor:(UIColor *)backgroundColor;
 
 @end

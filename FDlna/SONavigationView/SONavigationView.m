@@ -7,6 +7,7 @@
 //
 
 #import "SONavigationView.h"
+#import <StepOHelper.h>
 
 @interface SONavigationView ()
 @end
@@ -22,20 +23,23 @@
 }
 
 -(void)setUpView{
-    self.backgroundColor = [UIColor grayColor];//Color_BackGround;
+    self.backgroundColor = UIColorFromHexString(@"#1EBBFD");//Color_BackGround;
     self.userInteractionEnabled = YES;
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.frame)/2, CGRectGetHeight(self.frame) - 20)];
+    CGFloat btnWidht = 44;
+    CGFloat gap = 0.f;
+
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(gap, CGRectGetMaxY(self.frame) - btnWidht, CGRectGetWidth(self.frame)/2, btnWidht)];
     [self addSubview:titleLabel];
-    titleLabel.center = CGPointMake(SCREEN_W/2, CGRectGetHeight(self.bounds)/2 + 10);
+    titleLabel.center = CGPointMake(SCREEN_W/2, titleLabel.center.y);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.font = [UIFont systemFontOfSize:19];
-    titleLabel.textColor = [UIColor redColor];
+    titleLabel.textColor = [UIColor whiteColor];
     [titleLabel setBackgroundColor:[UIColor clearColor]];
     self.mTextLabel = titleLabel;
     
-    SONavButton* leftButton =  [[SONavButton alloc] initWithFrame:CGRectMake(20, 20, NAVBAR_H, NAVBAR_H-20)];
-    [leftButton setImage:[UIImage imageNamed:@"global_arrow_previous"] forState:UIControlStateNormal];
-    [leftButton setTitle:@"返回" forState:UIControlStateNormal];
+    SONavButton* leftButton =  [[SONavButton alloc] initWithFrame:CGRectMake(gap, CGRectGetMaxY(self.frame) - btnWidht, btnWidht, btnWidht)];
+    [leftButton setImage:[UIImage imageNamed:@"back_icon_black"] forState:UIControlStateNormal];
+//    [leftButton setTitle:@"返回" forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(leftButonAction:) forControlEvents:UIControlEventTouchUpInside];
     leftButton.titleLabel.font = _mTextLabel.font;
     [leftButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -43,7 +47,8 @@
     [self addSubview:leftButton];
     self.mLeftButton = leftButton;
     
-    SONavButton* rightButton =  [[SONavButton alloc] initWithFrame:CGRectMake(SCREEN_W - 20 - NAVBAR_H,20, NAVBAR_H, NAVBAR_H - 20)];
+    
+    SONavButton* rightButton =  [[SONavButton alloc] initWithFrame:CGRectMake(SCREEN_W -  gap - btnWidht, CGRectGetMaxY(self.frame) - btnWidht, btnWidht, btnWidht)];
     [rightButton setTitle:@"保存" forState:UIControlStateNormal];
     rightButton.titleLabel.font = _mTextLabel.font;
     [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -58,6 +63,10 @@
     self.mLineView = mline;
 }
 
+- (void)setNavBackgroundColor:(UIColor *)backgroundColor{
+    self.backgroundColor = backgroundColor;
+}
+
 -(void)setBackgroundColorClear{
     self.backgroundColor = [UIColor clearColor];
     self.layer.shadowPath = nil;
@@ -67,7 +76,7 @@
 -(void)setTitle:(NSString *)title{
     _title = title;
     [self.mTextLabel setText:title];
-    self.mTextLabel.center = CGPointMake(SCREEN_W/2, CGRectGetHeight(self.bounds)/2 + 10);
+//    self.mTextLabel.center = CGPointMake(SCREEN_W/2, self.mTextLabel.center.y);
 }
 -(void)leftButonAction:(SONavButton*)sender{
     if (_m_delegate && [_m_delegate respondsToSelector:@selector(backBtnPressed:)]) {

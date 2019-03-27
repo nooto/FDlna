@@ -25,7 +25,6 @@
     return userDocumentsPath;
 }
 
-
 //单个文件的大小
 + (long long) fileSizeAtPath:(NSString*) filePath{
     NSFileManager* manager = [NSFileManager defaultManager];
@@ -52,5 +51,25 @@
 + (UInt64)milliSecondTimestamp{
     return  [[NSDate date] timeIntervalSince1970] * 1000;
 }
+
+
++ (BOOL)openApplicationOpenSetting{
+    __block BOOL isSuccess = NO;
+    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if( [[UIApplication sharedApplication] canOpenURL:url] ) {
+        if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:)]) {
+            isSuccess =   [[UIApplication sharedApplication] openURL:url];
+        }
+        else{
+            if ([[UIApplication sharedApplication] respondsToSelector:@selector(openURL:options:completionHandler:)]) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:^(BOOL success) {
+                    isSuccess = success;
+                }];
+            }
+        }
+    }
+    return isSuccess;
+}
+
 
 @end

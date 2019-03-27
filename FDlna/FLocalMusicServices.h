@@ -14,6 +14,6 @@
 
 + (instancetype)sharedInstance;
 
-- (void)fetchLocalMusicAssetsWithCompletion:(void(^)(NSArray *loacalItems))completion;
+- (void)fetchLocalMusicAssetsWithCompletion:(void(^)(BOOL isAccess, NSArray *loacalItems))completion;
 
 @end
