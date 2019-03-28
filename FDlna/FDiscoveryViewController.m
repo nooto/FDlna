@@ -12,17 +12,25 @@
 #import "SOSoundBoxPlayer.h"
 #import "FDiscoveryViewCell.h"
 #import "SOWaterWaveView.h"
+#import <YYKit.h>
+#import <MJRefresh.h>
 @interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *mTableView;
 @property (nonatomic, strong)  NSArray *mSourceDatas;
 @property (nonatomic,strong) SOWaterWaveView *waveView;
+@property (nonatomic, assign) CGFloat mHeaderViewHeight;
+@property (nonatomic, strong) MJRefreshNormalHeader *mHeader;
+@property (nonatomic, strong) NSTimer  *mTimer;
+@property (nonatomic, assign) NSInteger  mCount;
 @end
 
 @implementation FDiscoveryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mCount = 10;
+    self.mHeaderViewHeight = 0.1f;
     [self.mNavView setBackgroundColorClear];
     [self setTitle:@"可用设备"];
     [self.mNavView.mRightButton setTitle:@"重新查找" forState:UIControlStateNormal];
@@ -46,7 +54,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return (section == 0) ? 16.0f : 32.0f;
+    if (section == 0) {
+        return 1;
+    }
+    return CGFLOAT_MIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -86,10 +97,15 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSLog(@"ollView.contentOf: %f", scrollView.contentOffset.y);
+}
+
 - (SOWaterWaveView*)waveView{
     if (!_waveView) {
-        _waveView = [[SOWaterWaveView alloc] initWithFrame:CGRectMake(0, -200, SCREEN_W, 50)];
+        _waveView = [[SOWaterWaveView alloc] initWithFrame:CGRectMake(0, -100, SCREEN_W, 100)];
         _waveView.backgroundColor = [UIColor grayColor];
+        _waveView.backgroundColor = [UIColor redColor];
         [_waveView setFinishAnimate:^(BOOL isForce) {
         }];
     }
@@ -105,8 +121,56 @@
         _mTableView.dataSource = self;
         _mTableView.delegate = self;
         [_mTableView registerClass:[FDiscoveryViewCell class] forCellReuseIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
-        [_mTableView setTableHeaderView:self.waveView];
+        _mTableView.mj_header = self.mHeader;
     }
     return _mTableView;
 }
+
+- (MJRefreshNormalHeader*)mHeader{
+    if (!_mHeader) {
+        _mHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            [[SOSoundBoxPlayer sharedPlayer] startDLNA];
+            [self startTimer];
+        }];
+        [_mHeader setTitle:@"松开重新发现设备" forState:MJRefreshStateIdle];
+        [_mHeader setTitle:@"松开重新发现设备1" forState:MJRefreshStatePulling];
+        [_mHeader setTitle:@"正在查找可投放的DLNA设备..." forState:MJRefreshStateRefreshing];
+        [_mHeader setTitle:@"松开重新发现设备3" forState:MJRefreshStateWillRefresh];
+        [_mHeader setTitle:@"松开重新发现设备4" forState:MJRefreshStateNoMoreData];
+        
+        _mHeader.stateLabel.font = [UIFont systemFontOfSize:15];
+        _mHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
+        [self.mHeader.lastUpdatedTimeLabel setText:nil];
+        // 设置颜色
+        _mHeader.stateLabel.textColor = [UIColor whiteColor];
+        _mHeader.lastUpdatedTimeLabel.textColor = [UIColor whiteColor];
+        _mHeader.automaticallyChangeAlpha = YES;
+    }
+    return _mHeader;
+}
+
+-(void)startTimer{
+    if (!_mTimer) {
+        _mTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)timerAction:(NSTimer*)timer{
+    NSLog(@"timerAction: %ld", (long)self.mCount);
+    self.mCount --;
+    if (self.mCount <= 0) {
+        [self endTimer];
+        self.mCount = 10;
+        [self.mHeader endRefreshing];
+    }
+    else{
+        [self.mHeader.lastUpdatedTimeLabel setText:[NSString stringWithFormat:@"剩余搜索时间%ld秒", (long)self.mCount]];
+    }
+}
+
+-(void)endTimer{
+    [_mTimer invalidate];
+    _mTimer = nil;
+}
+
 @end

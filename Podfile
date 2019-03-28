@@ -7,8 +7,7 @@ inhibit_all_warnings!
 def commonkit
 #    pod 'StepOHelper'
     pod 'StepOHelper', :path => '../StepOHelper'
-
-
+    pod 'MJRefresh'
 end
 
 target 'FDlna' do

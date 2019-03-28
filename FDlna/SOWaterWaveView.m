@@ -29,6 +29,17 @@
 @end
 
 @implementation SOWaterWaveView
+//- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier{
+//    if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
+////        self.waveWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame));
+//        WaterMaxHeight= self.waveWidth/2;
+//        self.count = 0;
+//        [self setupView];
+//    }
+//    return self;
+//}
+
+
 - (id)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.waveWidth = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame));
