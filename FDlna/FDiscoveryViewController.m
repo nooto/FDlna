@@ -14,6 +14,9 @@
 #import "SOWaterWaveView.h"
 #import <YYKit.h>
 #import <MJRefresh.h>
+#import "FMainEmptyView.h"
+#import <StepOHelper.h>
+#import "FHelpViewController.h"
 @interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UITableView *mTableView;
@@ -23,6 +26,7 @@
 @property (nonatomic, strong) MJRefreshNormalHeader *mHeader;
 @property (nonatomic, strong) NSTimer  *mTimer;
 @property (nonatomic, assign) NSInteger  mCount;
+@property (nonatomic, strong) FMainEmptyView *mEmptyView;
 @end
 
 @implementation FDiscoveryViewController
@@ -32,20 +36,31 @@
     self.mCount = 10;
     self.mHeaderViewHeight = 0.1f;
     [self.mNavView setBackgroundColorClear];
-    [self setTitle:@"可用设备"];
-    [self.mNavView.mRightButton setTitle:@"重新查找" forState:UIControlStateNormal];
+    [self.mNavView setTitle:@"可播放设备"];
+    [self.mNavView.mRightButton setImage:[UIImage imageNamed:@"icn_info"] forState:UIControlStateNormal];
+    [self.mNavView.mRightButton setTitle:nil forState:UIControlStateNormal];
     [self.mNavView.mRightButton addTarget:self action:@selector(rightButtonAciont:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.mTableView];
-    
+    self.mEmptyView.hidden = [SOSoundBoxPlayer sharedPlayer].mArrSoundboxs.count ? YES:NO;
+    [self.mTableView setBackgroundView:self.mEmptyView];
+    [self checkWiFI];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChangeNotification:) name:kPlayerDidChangeNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)rightButtonAciont:(UIButton*)sender{
-    [[SOSoundBoxPlayer sharedPlayer] stopDLNA];
-    [[SOSoundBoxPlayer sharedPlayer] startDLNA];
+    FHelpViewController *helpVC = [[FHelpViewController alloc] init];
+    [self.navigationController pushViewController:helpVC animated:YES];
 }
 
 - (void)playerDidChangeNotification:(NSNotification*)notiyf{
+    self.mEmptyView.hidden = [SOSoundBoxPlayer sharedPlayer].mArrSoundboxs.count ? YES:NO;
     [self.mTableView reloadData];
 }
 
@@ -82,17 +97,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FDiscoveryViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([FDiscoveryViewCell class])];
-    [cell setMDeviceDict:[[SOSoundBoxPlayer sharedPlayer].mArrSoundboxs objectAtIndex:indexPath.row]];
+    NSDictionary *tempDict =[[SOSoundBoxPlayer sharedPlayer].mArrSoundboxs objectAtIndex:indexPath.row];
+    [cell setMDeviceDict:tempDict isCurrentDevice:[[SOSoundBoxPlayer sharedPlayer] isSameToCurDevice:tempDict]];
     return cell;
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row < [SOSoundBoxPlayer sharedPlayer].mArrSoundboxs.count) {
         NSDictionary *dict = [SOSoundBoxSharedPlayer.mArrSoundboxs objectAtIndex:indexPath.row];
         if (![dict[kKeyDeviceUUID] isEqualToString:SOSoundBoxSharedPlayer.mCurMSRDevices[kKeyDeviceUUID]]) {
-            [[SOSoundBoxPlayer sharedPlayer] setMCurMSRDevices:dict];
+            [[SOSoundBoxPlayer sharedPlayer] setMCurMRDevices:dict];
+            [self.mTableView reloadData];
         }
     }
 }
@@ -101,6 +117,23 @@
     NSLog(@"ollView.contentOf: %f", scrollView.contentOffset.y);
 }
 
+- (BOOL)checkWiFI{
+    NSString *SSID= [UIDevice Wi_FiSSID];
+    if (SSID.length == 0) {
+        [SOAlertManagerShareInstance showAlertViewWithTitle:@"提示" message:@"需要在Wi-Fi情况下，搜索音箱设备，请连接到Wi-Fi网络后，点击屏幕搜索设备。。。" leftButton:@"去连接" rightButton:@"暂不连接" completct:^(NSInteger selectIndex, NSString *title) {
+            if (selectIndex == 0) {
+                [SOTools openApplicationOpenSetting];
+            }
+            else{
+                [self.mEmptyView.titleLabel setText:@"请链接Wi-Fi后重新搜索设备..."];
+            }
+        }];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark -
 - (SOWaterWaveView*)waveView{
     if (!_waveView) {
         _waveView = [[SOWaterWaveView alloc] initWithFrame:CGRectMake(0, -100, SCREEN_W, 100)];
@@ -129,21 +162,26 @@
 - (MJRefreshNormalHeader*)mHeader{
     if (!_mHeader) {
         _mHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            [[SOSoundBoxPlayer sharedPlayer] startDLNA];
-            [self startTimer];
+            if ([self checkWiFI]) {
+                [[SOSoundBoxPlayer sharedPlayer] startDLNA];
+                [self startTimer];
+            }
+            else{
+                [self.mTableView.mj_header endRefreshing];
+            }
         }];
         [_mHeader setTitle:@"松开重新发现设备" forState:MJRefreshStateIdle];
-        [_mHeader setTitle:@"松开重新发现设备1" forState:MJRefreshStatePulling];
+        [_mHeader setTitle:@"松开重新发现设备" forState:MJRefreshStatePulling];
         [_mHeader setTitle:@"正在查找可投放的DLNA设备..." forState:MJRefreshStateRefreshing];
-        [_mHeader setTitle:@"松开重新发现设备3" forState:MJRefreshStateWillRefresh];
-        [_mHeader setTitle:@"松开重新发现设备4" forState:MJRefreshStateNoMoreData];
+        [_mHeader setTitle:@"松开重新发现设备" forState:MJRefreshStateWillRefresh];
+        [_mHeader setTitle:@"松开重新发现设备" forState:MJRefreshStateNoMoreData];
         
-        _mHeader.stateLabel.font = [UIFont systemFontOfSize:15];
-        _mHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
-        [self.mHeader.lastUpdatedTimeLabel setText:nil];
+        _mHeader.stateLabel.font = [UIFont systemFontOfSize:14];
+        _mHeader.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:12];
+        [_mHeader.lastUpdatedTimeLabel setText:nil];
         // 设置颜色
-        _mHeader.stateLabel.textColor = [UIColor whiteColor];
-        _mHeader.lastUpdatedTimeLabel.textColor = [UIColor whiteColor];
+        _mHeader.stateLabel.textColor = UIColorFromHexString(@"#FFC700");
+        _mHeader.lastUpdatedTimeLabel.textColor = UIColorFromHexString(@"#FFC700");
         _mHeader.automaticallyChangeAlpha = YES;
     }
     return _mHeader;
@@ -171,6 +209,24 @@
 -(void)endTimer{
     [_mTimer invalidate];
     _mTimer = nil;
+}
+-(FMainEmptyView*)mEmptyView{
+    if (!_mEmptyView) {
+        _mEmptyView = [[FMainEmptyView alloc] initWithFrame:self.mTableView.frame];
+        _mEmptyView.backgroundColor = [UIColor clearColor];
+        [_mEmptyView.titleLabel setText:@"暂无音乐信息"];
+        [_mEmptyView.titleLabel setTextColor:[UIColor whiteColor]];
+        @weakify(self);
+        [_mEmptyView setClickDefaultViewCompletion:^{
+            @strongify(self);
+            [self.mTableView.mj_header beginRefreshing];
+        }];
+    }
+    return _mEmptyView;
+}
+
+- (void)applicationDidActive:(NSNotification*)notification {
+    [self checkWiFI];
 }
 
 @end

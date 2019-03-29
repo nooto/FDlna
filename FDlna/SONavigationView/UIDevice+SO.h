@@ -169,4 +169,7 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
 // 是否越狱
 + (BOOL)isJailbroken;
 
++ (NSDictionary *)Wi_FiInfo;
++ (NSString *)Wi_FiSSID;
+
 @end

@@ -12,4 +12,5 @@
 
 @property (nonatomic, strong) NSDictionary *mDeviceDict;
 
+- (void)setMDeviceDict:(NSDictionary *)mDeviceDict isCurrentDevice:(BOOL)isCurrentDevice;
 @end

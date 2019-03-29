@@ -392,7 +392,7 @@
     return outstring;
 }
 
-- (NSDictionary *)Wi_FiInfo {
++ (NSDictionary *)Wi_FiInfo {
     NSString *ssid = @"";
     NSString *bssid = @"";
     NSArray *ifs = (__bridge_transfer id)CNCopySupportedInterfaces();
@@ -432,6 +432,14 @@
     bssid = [UIDevice standardFormateMAC:bssid];
     
     return @{@"SSID":ssid ? : @"", @"BSSID":bssid};
+}
++ (NSString *)Wi_FiSSID {
+    NSDictionary *dict = [UIDevice Wi_FiInfo];
+    NSString *ssid=  dict[@"SSID"];
+    if ([ssid isKindOfClass:[NSString class]]) {
+        return ssid;
+    }
+    return nil;
 }
 
 + (NSString *)standardFormateMAC:(NSString *)MAC {

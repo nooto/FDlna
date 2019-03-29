@@ -38,6 +38,7 @@
 		E295A80C22421CD400F8006C /* FDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E295A80B22421CD400F8006C /* FDiscoveryViewController.m */; };
 		E2C3023B2249D52200C44474 /* FMainEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3023A2249D52200C44474 /* FMainEmptyView.m */; };
 		E2C3023F224B701700C44474 /* SOWaterWaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C3023E224B701700C44474 /* SOWaterWaveView.m */; };
+		E2C30242224DA9C800C44474 /* FHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2C30241224DA9C800C44474 /* FHelpViewController.m */; };
 		EA77738D6B702217705C022E /* libPods-FDlna.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +136,8 @@
 		E2C3023A2249D52200C44474 /* FMainEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMainEmptyView.m; sourceTree = "<group>"; };
 		E2C3023D224B701700C44474 /* SOWaterWaveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOWaterWaveView.h; sourceTree = "<group>"; };
 		E2C3023E224B701700C44474 /* SOWaterWaveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SOWaterWaveView.m; sourceTree = "<group>"; };
+		E2C30240224DA9C800C44474 /* FHelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHelpViewController.h; sourceTree = "<group>"; };
+		E2C30241224DA9C800C44474 /* FHelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FHelpViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +222,8 @@
 				E2C3023A2249D52200C44474 /* FMainEmptyView.m */,
 				E2C3023D224B701700C44474 /* SOWaterWaveView.h */,
 				E2C3023E224B701700C44474 /* SOWaterWaveView.m */,
+				E2C30240224DA9C800C44474 /* FHelpViewController.h */,
+				E2C30241224DA9C800C44474 /* FHelpViewController.m */,
 				E295A80E22421DBC00F8006C /* DLNA */,
 				E2750F97223B8B600031DD56 /* SONavigationView */,
 				E2750F68223B885A0031DD56 /* Assets.xcassets */,
@@ -497,6 +502,7 @@
 				E23876662244E0F9004F4483 /* FDiscoveryViewCell.m in Sources */,
 				E238765622447D23004F4483 /* SHDMRControl.mm in Sources */,
 				E238765D22447EA2004F4483 /* SOSoundBoxPlayer.m in Sources */,
+				E2C30242224DA9C800C44474 /* FHelpViewController.m in Sources */,
 				E2750F61223B88580031DD56 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

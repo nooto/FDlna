@@ -80,10 +80,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row < self.mSourceDatas.count) {
-        [[SOSoundBoxPlayer sharedPlayer] playMusic:[self.mSourceDatas objectAtIndex:indexPath.row]];
+        [self playMusice:[self.mSourceDatas objectAtIndex:indexPath.row]];
     }
 }
 
+-(void)playMusice:(MPMediaItem*)item{
+    if ([[SOSoundBoxPlayer sharedPlayer].mCurMSRDevices isKindOfClass:[NSDictionary class]]) {
+        [[SOSoundBoxPlayer sharedPlayer] playMusic:item];
+    }
+    else{
+        SOCustomAlertView *alertView = [[SOCustomAlertView alloc] initWithTitle:@"提示" message:@"还没有可播放的设备，请先去选择一个可以播放的设备..." leftButton:@"现在去选" rightButton:@"取消"];
+        alertView.isTouchBgDismiss = YES;
+        [SOAlertManagerShareInstance showAlertView:alertView];
+        [alertView setDidSelcectButtonAtIndexWithTitle:^(NSInteger index, NSString *buttonText) {
+            if (index == 0) {
+                [self rightButtonAciont:nil];
+            }
+        }];
+    }
+}
 
 - (UITableView*)mTableView{
     if (!_mTableView) {

@@ -38,7 +38,7 @@
     self.mTextLabel = titleLabel;
     
     SONavButton* leftButton =  [[SONavButton alloc] initWithFrame:CGRectMake(gap, CGRectGetMaxY(self.frame) - btnWidht, btnWidht, btnWidht)];
-    [leftButton setImage:[UIImage imageNamed:@"back_icon_black"] forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"back_icon_white"] forState:UIControlStateNormal];
 //    [leftButton setTitle:@"返回" forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(leftButonAction:) forControlEvents:UIControlEventTouchUpInside];
     leftButton.titleLabel.font = _mTextLabel.font;

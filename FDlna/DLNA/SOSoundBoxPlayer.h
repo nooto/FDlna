@@ -125,8 +125,10 @@ typedef NS_ENUM(NSInteger, EPlayStatues){
 
 -(NSString*)getCurItemTitle;
 
-- (void)setMCurMSRDevices:(NSDictionary*)dict;
+- (void)setMCurMRDevices:(NSDictionary*)dict;
 -(BOOL)isSameToCurMeida:(MPMediaItem*)mediaItem;
+
+-(BOOL)isSameToCurDevice:(NSDictionary*)dict;
 
 - (void)startDLNA;
 - (void)stopDLNA;

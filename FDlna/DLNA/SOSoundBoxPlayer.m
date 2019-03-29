@@ -99,10 +99,17 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     return _mArrSoundboxs;
 }
 
-- (void)setMCurMSRDevices:(NSDictionary *)mCurMSRDevices{
+- (void)setMCurMRDevices:(NSDictionary *)mCurMSRDevices{
     _mCurMSRDevices = mCurMSRDevices;
     [self.mDMRCountrol getCurrentRender];
     [self.mDMRCountrol chooseRenderWithUUID:mCurMSRDevices[kKeyDeviceUUID]];
+}
+
+-(BOOL)isSameToCurDevice:(NSDictionary*)dict{
+    if ([_mCurMSRDevices[kKeyDeviceUUID] isEqualToString:dict[kKeyDeviceUUID]]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)setCurrentItem:(id)item {
