@@ -1,7 +1,7 @@
 PODS:
   - Masonry (1.1.0)
   - MJRefresh (3.1.16)
-  - StepOHelper (0.0.1):
+  - StepOHelper (0.0.3):
     - Masonry
     - YYKit
   - YYKit (1.0.9):
@@ -10,24 +10,21 @@ PODS:
 
 DEPENDENCIES:
   - MJRefresh
-  - StepOHelper (from `../StepOHelper`)
+  - StepOHelper
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Masonry
     - MJRefresh
+    - StepOHelper
     - YYKit
-
-EXTERNAL SOURCES:
-  StepOHelper:
-    :path: "../StepOHelper"
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: 7798e16e53a5ef7f332dd05b27664db4e29530fd
-  StepOHelper: 02c7bfcd21465c551061e8e7ad2527b6bf38ecc2
+  StepOHelper: 824fd81f70caf8cf51d0db429760607806fc00bd
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 2a2c12e862eaeb3904be0c34c99dd551cef0775d
+PODFILE CHECKSUM: c161035fe98397b8b30193a5ae86aa8e4b03bb3e
 
 COCOAPODS: 1.6.0.beta.2

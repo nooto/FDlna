@@ -31,7 +31,6 @@
 		E2750F9A223B8BB50031DD56 /* SONavigationController+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F99223B8BB50031DD56 /* SONavigationController+Animation.m */; };
 		E2750F9D223B8C9B0031DD56 /* SONavButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F9C223B8C9B0031DD56 /* SONavButton.m */; };
 		E2750FA0223B8CF50031DD56 /* SONavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F9F223B8CF50031DD56 /* SONavigationView.m */; };
-		E2750FA3223B904A0031DD56 /* UIDevice+SO.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750FA2223B904A0031DD56 /* UIDevice+SO.m */; };
 		E2750FA6223B956D0031DD56 /* SOTools.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750FA5223B956D0031DD56 /* SOTools.m */; };
 		E2750FA9223F7C090031DD56 /* FLocalMusicServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = E2750FA8223F7C090031DD56 /* FLocalMusicServices.mm */; };
 		E2750FAC223F7F080031DD56 /* FMusicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750FAB223F7F070031DD56 /* FMusicTableViewCell.m */; };
@@ -122,8 +121,6 @@
 		E2750F9C223B8C9B0031DD56 /* SONavButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SONavButton.m; sourceTree = "<group>"; };
 		E2750F9E223B8CF50031DD56 /* SONavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SONavigationView.h; sourceTree = "<group>"; };
 		E2750F9F223B8CF50031DD56 /* SONavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SONavigationView.m; sourceTree = "<group>"; };
-		E2750FA1223B904A0031DD56 /* UIDevice+SO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIDevice+SO.h"; sourceTree = "<group>"; };
-		E2750FA2223B904A0031DD56 /* UIDevice+SO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+SO.m"; sourceTree = "<group>"; };
 		E2750FA4223B956D0031DD56 /* SOTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOTools.h; sourceTree = "<group>"; };
 		E2750FA5223B956D0031DD56 /* SOTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SOTools.m; sourceTree = "<group>"; };
 		E2750FA7223F7C090031DD56 /* FLocalMusicServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLocalMusicServices.h; sourceTree = "<group>"; };
@@ -259,8 +256,6 @@
 				E2750F99223B8BB50031DD56 /* SONavigationController+Animation.m */,
 				E2750F9B223B8C9B0031DD56 /* SONavButton.h */,
 				E2750F9C223B8C9B0031DD56 /* SONavButton.m */,
-				E2750FA1223B904A0031DD56 /* UIDevice+SO.h */,
-				E2750FA2223B904A0031DD56 /* UIDevice+SO.m */,
 				E2750F9E223B8CF50031DD56 /* SONavigationView.h */,
 				E2750F9F223B8CF50031DD56 /* SONavigationView.m */,
 				E2750FA4223B956D0031DD56 /* SOTools.h */,
@@ -487,7 +482,6 @@
 				E2750FA0223B8CF50031DD56 /* SONavigationView.m in Sources */,
 				E295A80C22421CD400F8006C /* FDiscoveryViewController.m in Sources */,
 				E2750FA6223B956D0031DD56 /* SOTools.m in Sources */,
-				E2750FA3223B904A0031DD56 /* UIDevice+SO.m in Sources */,
 				E2750F9D223B8C9B0031DD56 /* SONavButton.m in Sources */,
 				E2750FAC223F7F080031DD56 /* FMusicTableViewCell.m in Sources */,
 				E2C3023F224B701700C44474 /* SOWaterWaveView.m in Sources */,
