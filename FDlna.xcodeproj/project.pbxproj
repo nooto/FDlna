@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,7 +22,6 @@
 		E2750F61223B88580031DD56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F60223B88580031DD56 /* AppDelegate.m */; };
 		E2750F64223B88580031DD56 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F63223B88580031DD56 /* ViewController.m */; };
 		E2750F69223B885A0031DD56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2750F68223B885A0031DD56 /* Assets.xcassets */; };
-		E2750F6C223B885A0031DD56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2750F6A223B885A0031DD56 /* LaunchScreen.storyboard */; };
 		E2750F6F223B885A0031DD56 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F6E223B885A0031DD56 /* main.m */; };
 		E2750F79223B885A0031DD56 /* FDlnaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F78223B885A0031DD56 /* FDlnaTests.m */; };
 		E2750F84223B885A0031DD56 /* FDlnaUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F83223B885A0031DD56 /* FDlnaUITests.m */; };
@@ -102,7 +101,6 @@
 		E2750F62223B88580031DD56 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		E2750F63223B88580031DD56 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E2750F68223B885A0031DD56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E2750F6B223B885A0031DD56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E2750F6D223B885A0031DD56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2750F6E223B885A0031DD56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E2750F74223B885A0031DD56 /* FDlnaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FDlnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,7 +222,6 @@
 				E295A80E22421DBC00F8006C /* DLNA */,
 				E2750F97223B8B600031DD56 /* SONavigationView */,
 				E2750F68223B885A0031DD56 /* Assets.xcassets */,
-				E2750F6A223B885A0031DD56 /* LaunchScreen.storyboard */,
 				E2750F6D223B885A0031DD56 /* Info.plist */,
 				E2750F6E223B885A0031DD56 /* main.m */,
 			);
@@ -402,7 +399,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2750F6C223B885A0031DD56 /* LaunchScreen.storyboard in Resources */,
 				E2750F69223B885A0031DD56 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -452,16 +448,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FDlna/Pods-FDlna-resources.sh",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-FDlna/Pods-FDlna-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-FDlna/Pods-FDlna-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -531,17 +522,6 @@
 			targetProxy = E2750F80223B885A0031DD56 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		E2750F6A223B885A0031DD56 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E2750F6B223B885A0031DD56 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E2750F86223B885A0031DD56 /* Debug */ = {
@@ -661,6 +641,7 @@
 			baseConfigurationReference = 4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -681,7 +662,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hd.smartVillage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = smartVillage_iOS_development;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -691,6 +672,7 @@
 			baseConfigurationReference = 2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
@@ -711,7 +693,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.hd.smartVillage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
