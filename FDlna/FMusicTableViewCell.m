@@ -14,7 +14,8 @@
 @property (nonatomic, strong) UILabel *mTextLabel;
 @property (nonatomic, strong) UILabel *mDetailLabel;
 @property (nonatomic, strong) UILabel *mArtisLabel;
-@property (nonatomic, strong) UIButton *mPlayButton;
+//@property (nonatomic, strong) UIButton *mPlayButton;
+@property (nonatomic, strong) UIImageView *mPlayImageView;
 
 @end
 
@@ -30,7 +31,7 @@
 }
 
 - (void)setupView{
-    [self.contentView addSubview:self.mPlayButton];
+    [self.contentView addSubview:self.mPlayImageView];
     [self.contentView addSubview:self.mTextLabel];
     [self.contentView addSubview:self.mDetailLabel];
     [self.contentView addSubview:self.mArtisLabel];
@@ -53,7 +54,7 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
 
-    [self.mPlayButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.mPlayImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(self.contentView.mas_height).multipliedBy(0.5f);
         make.centerY.equalTo(self.contentView.mas_centerY);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
@@ -64,7 +65,7 @@
             make.height.mas_equalTo(self.contentView.mas_height).multipliedBy(0.35f);
             make.bottom.equalTo(self.contentView.mas_centerY);
             make.left.equalTo(self.contentView.mas_left).offset(20);
-            make.right.equalTo(self.mPlayButton.mas_left).offset(- 15);
+            make.right.equalTo(self.mPlayImageView.mas_left).offset(- 15);
         }];
         
         [self.mDetailLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -85,7 +86,7 @@
             make.centerY.equalTo(self.contentView.mas_centerY);
             make.width.equalTo(self.contentView.mas_width).multipliedBy(0.25);
             make.height.equalTo(self.contentView.mas_width).multipliedBy(0.5);
-            make.right.equalTo(self.mPlayButton.mas_left).offset(- 15);
+            make.right.equalTo(self.mPlayImageView.mas_left).offset(- 15);
         }];
 
         [self.mTextLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -120,24 +121,17 @@
     [self.mDetailLabel setText:detailString];
     [self.mArtisLabel setText:mItem.artist];
 
-    self.mPlayButton.hidden = NO;
-    if (status == SOSongStatu_Default) {
-        self.mPlayButton.hidden = YES;
-        [self.mPlayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.height.mas_equalTo(0);
-        }];
+    self.mPlayImageView.hidden = YES;
+    [self.mPlayImageView stopAnimating];
+    if (status == SOSongStatu_Playing){
+        NSLog(@"loarCellWithMediaitem: %@, %ld", mItem.artist, (long)status);
+
+        self.mPlayImageView.hidden = NO;
+        [self.mPlayImageView startAnimating];
+//        [self.mPlayImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.height.equalTo(self.contentView.mas_height).multipliedBy(0.5f);
+//        }];
     }
-    else if (status == SOSongStatu_Playing){
-        [self.mPlayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.height.equalTo(self.contentView.mas_height).multipliedBy(0.5f);
-        }];
-    }
-    else if (status == SOSongStatu_Pause){
-        [self.mPlayButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.height.equalTo(self.contentView.mas_height).multipliedBy(0.5f);
-        }];
-    }
-    
 }
 
 
@@ -169,15 +163,27 @@
     return _mArtisLabel;
 }
 
-- (UIButton*)mPlayButton{
-    if (!_mPlayButton) {
-        _mPlayButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_play_white_s"] forState:UIControlStateNormal];
-        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_play_white_s"] forState:UIControlStateHighlighted];
-        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_pause_white_s"] forState:UIControlStateSelected];
-        [_mPlayButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
+
+- (UIImageView*)mPlayImageView{
+    if (!_mPlayImageView) {
+        _mPlayImageView = [[UIImageView alloc] init];
+        NSMutableArray *imageArray = [NSMutableArray array];
+        NSArray *imageNameArray = @[@"icon_music_refresh",@"icon_music_refresh1",@"icon_music_refresh2"];
+        for (NSInteger i = 0; i < imageNameArray.count; i++) {
+            NSString *imageName = [NSString stringWithFormat:@"%@",imageNameArray[i]];
+            UIImage *image = [UIImage imageNamed:imageName];
+            if (image) {
+                [imageArray addObject:image];
+            }
+        }
+        [_mPlayImageView setAnimationDuration:.3f];
+        [_mPlayImageView setAnimationImages:imageArray];
+        _mPlayImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        _mPlayImageView.layer.borderWidth = 0.3f;
+        _mPlayImageView.layer.cornerRadius = 5.f;
+        _mPlayImageView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8f];
     }
-    return _mPlayButton;
+    return _mPlayImageView;
 }
 
 

@@ -88,6 +88,7 @@
 - (void)restrictedAccessToMediaLibraryWithCompletion:(void(^)(BOOL isAccess, NSArray *loacalItems))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+
         SOCustomAlertView *alertView =  [[SOCustomAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"请允许%@访问您的媒体库", [infoDictionary objectForKey:@"CFBundleDisplayName"]] leftButton:@"允许" rightButton:@"暂不允许"];
 //        [alertView.mLeftButton setBackgroundColor:UIColorFromHexString(@"#0159D7")];
         [SOAlertManagerShareInstance showAlertView:alertView];

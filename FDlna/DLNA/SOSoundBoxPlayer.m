@@ -126,16 +126,15 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     if (_mCurSongUrl.length <= 0) {
         return;
     }
-//    self.mCurSongUrl = @"http://music.taihe.com/album/613235850?pst=shoufa";
-    //
     NSDictionary *dict1 = [self.mDMRCountrol getCurrentRender];
     NSDictionary *dict = [self.mDMRCountrol getCurrentServer];
     if (dict == nil || dict1 == nil) {
         return;
     }
-    [_mDMRCountrol chooseServerWithUUID:self.mMediatServerDevice[kKeyDeviceUUID]];
+//    [_mDMRCountrol chooseServerWithUUID:self.mMediatServerDevice[kKeyDeviceUUID]];
     [self renderPlay:_mCurSongUrl isOnlinePlay:NO];
 
+    NSLog(@"mCurSongUrl: %@",self.mCurSongUrl);
     NSInteger  success =  [_mDMRCountrol renderSetAVTransportWithURI:self.mCurSongUrl metaData:nil];
      success = [_mDMRCountrol setRendererNextAVTransportURI:self.mCurSongUrl];
     success =  [_mDMRCountrol renderPlay];
@@ -727,21 +726,28 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
                                           eventData:@([paramsResponse.eventValue integerValue])];
             }
         }
+        //音量变化
+        else if ([paramsResponse.eventName isEqualToString:@"PlayerErroCode"]){
+//            self.voluneFlag -- ;
+//            if (self.voluneFlag <= STATUES_setVolumeSuccess) {
+//                self.voluneFlag = STATUES_setVolumeSuccess;
+//                [self SendPlayerEventBlockWithEvent:STATUES_VolumeStatueChange
+//                                          eventData:@([paramsResponse.eventValue integerValue])];
+//            }
+        }
         //开始播放
-        else if ([paramsResponse.eventName isEqualToString:@"TransportState"] &&
-                 [paramsResponse.eventValue isEqualToString:@"PLAYING"]
-                 ){
-            if (self.currentStatus == PLAY_WaitingToPlay ||
-                self.currentStatus == PLAY_pasue ||
-                self.currentStatus == PLAY_playing ||
-                self.currentStatus == PLAY_seeking) {
-                
+        else if ([paramsResponse.eventName isEqualToString:@"TransportState"]){
+//            if (self.currentStatus == PLAY_WaitingToPlay ||
+//                self.currentStatus == PLAY_pasue ||
+//                self.currentStatus == PLAY_playing ||
+//                self.currentStatus == PLAY_seeking) {
+            
                 self.currentStatus = PLAY_playing;//正在播放。。。
                 [self setNextSongToPlay];//预先设置下首歌曲的播放。不走stop 状态
                 [self startPrcessTimerWithMaxTime:0]; //开启播放进度上报定时器。
                 
-                //                [self SendPlayerEventBlockWithEvent:STATUES_Playing
-                //                                          eventData:nil];
+                                [self SendPlayerEventBlockWithEvent:STATUES_Playing
+                                                          eventData:nil];
                 
                 // 播放后自动校正当前播放的数据。
                 [self getCurMediaInfo:^(SHMediaInfoResponse *response) {
@@ -756,7 +762,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
                     }
                 }];
                 
-            }
+//            }
             
         }
         //暂停播放

@@ -31,7 +31,8 @@
     [self.mNavView.mRightButton setTitle:nil forState:UIControlStateNormal];
     [self.mNavView.mRightButton setImage:[UIImage imageNamed:@"img_nodevice"] forState:UIControlStateNormal];
     [self.mNavView.mRightButton addTarget:self action:@selector(rightButtonAciont:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDidChangeNotification:) name:kPlayerDidChangeNotificationName object:nil];
+
     [self requestLocalMusicData];
     [self.view addSubview:self.mTableView];
     [self.view addSubview:self.mEmptyView];
@@ -99,6 +100,21 @@
         }];
     }
 }
+
+- (void)playerDidChangeNotification:(NSNotification*)notiyf{
+    NSDictionary *dict = notiyf.object;
+    if (![dict isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+//    EEventStatues eventStatues = [dict[@"kEventStatues"] integerValue];
+//    if (eventStatues == STATUES_Playing ||
+//        eventStatues == STATUES_pause    ||
+//        eventStatues == STATUES_PlayStopped
+//        ) {
+        [self.mTableView reloadData];
+//    }
+}
+
 
 - (UITableView*)mTableView{
     if (!_mTableView) {

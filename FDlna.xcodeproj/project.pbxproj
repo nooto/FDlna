@@ -133,6 +133,7 @@
 		E2C3023E224B701700C44474 /* SOWaterWaveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SOWaterWaveView.m; sourceTree = "<group>"; };
 		E2C30240224DA9C800C44474 /* FHelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FHelpViewController.h; sourceTree = "<group>"; };
 		E2C30241224DA9C800C44474 /* FHelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FHelpViewController.m; sourceTree = "<group>"; };
+		E2EFB60822D886E90010AFEB /* FDlna.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FDlna.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +198,7 @@
 		E2750F5E223B88580031DD56 /* FDlna */ = {
 			isa = PBXGroup;
 			children = (
+				E2EFB60822D886E90010AFEB /* FDlna.entitlements */,
 				E2750F5F223B88580031DD56 /* AppDelegate.h */,
 				E2750F60223B88580031DD56 /* AppDelegate.m */,
 				E2750F62223B88580031DD56 /* ViewController.h */,
@@ -363,6 +365,11 @@
 				TargetAttributes = {
 					E2750F5B223B88580031DD56 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.AccessWiFi = {
+								enabled = 1;
+							};
+						};
 					};
 					E2750F73223B885A0031DD56 = {
 						CreatedOnToolsVersion = 10.1;
@@ -644,6 +651,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FDlna/FDlna.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = JD87995S3B;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -675,6 +683,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FDlna/FDlna.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (

@@ -378,18 +378,18 @@ NSInteger dateSort(id s1, id s2, void *context) {
         return;
     }
     
-    NSArray* sortedArray = [fileArray sortedArrayUsingFunction:dateSort context:nil];
-    
-    for (int i = cacheInt; i < [sortedArray count]; i ++) {
-        NSError *deleteErr = nil;
-        
-        NSLog (@"delete %@", [sortedArray objectAtIndex:i]);
-        
-        [[NSFileManager defaultManager] removeItemAtURL:[sortedArray objectAtIndex:i] error:&deleteErr];
-        if (deleteErr) {
-            NSLog (@"Can't delete %@: %@", [sortedArray objectAtIndex:i], deleteErr);
-        }
-    }
+//    NSArray* sortedArray = [fileArray sortedArrayUsingFunction:dateSort context:nil];
+//    
+//    for (int i = cacheInt; i < [sortedArray count]; i ++) {
+//        NSError *deleteErr = nil;
+//        
+//        NSLog (@"delete %@", [sortedArray objectAtIndex:i]);
+//        
+//        [[NSFileManager defaultManager] removeItemAtURL:[sortedArray objectAtIndex:i] error:&deleteErr];
+//        if (deleteErr) {
+//            NSLog (@"Can't delete %@: %@", [sortedArray objectAtIndex:i], deleteErr);
+//        }
+//    }
     
 }
 
