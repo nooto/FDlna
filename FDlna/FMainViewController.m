@@ -117,8 +117,8 @@
 - (SOSongStatus)getMPMeidaItemSataus:(MPMediaItem*)item{
     SOSongStatus songStatus = SOSongStatu_Default;
     
-    if ([SOSoundBoxPlayer sharedPlayer].playerStatus == SOSongStatu_Playing ||
-        [SOSoundBoxPlayer sharedPlayer].playerStatus == SOSongStatu_Pause) {
+//    if ([SOSoundBoxPlayer sharedPlayer].playerStatus == SOSongStatu_Playing ||
+//        [SOSoundBoxPlayer sharedPlayer].playerStatus == SOSongStatu_Pause) {
         BOOL isCurrentSont = [[SOSoundBoxPlayer sharedPlayer] isSameToCurMeida:item];
         if (isCurrentSont) {
             songStatus = SOSongStatu_Playing;
@@ -126,7 +126,7 @@
         else{
             songStatus = SOSongStatu_Pause;
         }
-    }
+//    }
     return songStatus;
 }
 

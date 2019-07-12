@@ -172,9 +172,9 @@
 - (UIButton*)mPlayButton{
     if (!_mPlayButton) {
         _mPlayButton = [[UIButton alloc] initWithFrame:CGRectZero];
-        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_pause_white_s"] forState:UIControlStateNormal];
+        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_play_white_s"] forState:UIControlStateNormal];
         [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_play_white_s"] forState:UIControlStateHighlighted];
-        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_play_white_s"] forState:UIControlStateSelected];
+        [_mPlayButton setBackgroundImage:[UIImage imageNamed:@"btn_pause_white_s"] forState:UIControlStateSelected];
         [_mPlayButton addTarget:self action:@selector(playAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _mPlayButton;

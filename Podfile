@@ -5,8 +5,8 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 
 def commonkit
-#    pod 'StepOHelper'
-    pod 'StepOHelper', :path => '../StepOHelper'
+    pod 'StepOHelper', '~> 0.0.3'
+#    pod 'StepOHelper', :path => '../StepOHelper'
     pod 'MJRefresh'
 end
 

@@ -175,7 +175,7 @@ NSString *const kPlayerDidChangeNotificationName = @"kPlayerDidChangeNotificatio
     
     NSDictionary *deviceModel = [_mDMRCountrol getCurrentServer];
     NSString *baseUrl = deviceModel[kKeyDLNAMSUrl];
-//    if (baseUrl.length == 0) return nil;
+    if (baseUrl.length == 0) return nil;
     
     NSURL *assetURL = [item valueForProperty:MPMediaItemPropertyAssetURL];
     NSString *itemUrl = assetURL.absoluteString;
