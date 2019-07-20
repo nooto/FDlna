@@ -135,7 +135,9 @@ public:
     PLT_SsdpDeviceSearchResponseInterfaceIterator(PLT_DeviceHost*   device, 
                                                   NPT_SocketAddress remote_addr,
                                                   const char*       st) :
-        m_Device(device), m_RemoteAddr(remote_addr), m_ST(st)  {}
+        m_Device(device), m_ST(st)  {
+            m_RemoteAddr = remote_addr;
+        }
     virtual ~PLT_SsdpDeviceSearchResponseInterfaceIterator() {}
       
     NPT_Result operator()(NPT_NetworkInterface*& if_addr) const;
@@ -159,7 +161,9 @@ public:
     PLT_SsdpDeviceSearchResponseTask(PLT_DeviceHost*   device, 
                                      NPT_SocketAddress remote_addr,
                                      const char*       st) : 
-        m_Device(device), m_RemoteAddr(remote_addr), m_ST(st) {}
+        m_Device(device), m_ST(st) {
+            m_RemoteAddr = remote_addr;
+        }
 
 protected:
     virtual ~PLT_SsdpDeviceSearchResponseTask() {}

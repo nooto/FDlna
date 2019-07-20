@@ -176,6 +176,12 @@ public:
         PLT_DeviceDataReference& /* device */,
         void*                    /* userdata */) {}
 
+    virtual void OnSetAVTransportMetaDataResult(
+        NPT_Result               /* res */,
+        PLT_DeviceDataReference& /* device */,
+        void*                    /* userdata */) {}
+    
+    
     virtual void OnSetPlayModeResult(
         NPT_Result               /* res */,
         PLT_DeviceDataReference& /* device */,
@@ -270,6 +276,7 @@ public:
     NPT_Result SetNextAVTransportURI(PLT_DeviceDataReference& device, NPT_UInt32 instance_id, const char* next_uri, const char* next_metadata, void* userdata);
     NPT_Result SetPlayMode(PLT_DeviceDataReference&  device, NPT_UInt32 instance_id, NPT_String new_play_mode, void* userdata);
     NPT_Result Stop(PLT_DeviceDataReference& device, NPT_UInt32 instance_id, void* userdata);
+    NPT_Result SetAVTransportMetaData(PLT_DeviceDataReference& device, NPT_UInt32 instance_id, const char* metadata, void* userdata);
 
     // ConnectionManager
     NPT_Result GetCurrentConnectionIDs(PLT_DeviceDataReference& device, void* userdata);

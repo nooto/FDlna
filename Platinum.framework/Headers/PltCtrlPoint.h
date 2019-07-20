@@ -150,6 +150,8 @@ public:
     virtual NPT_Result OnSsdpPacket(const NPT_HttpRequest&        request, 
                                     const NPT_HttpRequestContext& context);
 
+    NPT_Int32   m_Count;
+
 protected:
 
     // State Variable Handling
