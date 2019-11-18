@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E2126E25231FA1F40014DF4A /* Platinum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2387646224395A3004F4483 /* Platinum.framework */; };
-		E2126E27231FA2410014DF4A /* Neptune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2387645224395A3004F4483 /* Neptune.framework */; };
+		E23753D9238276A80074F80E /* Neptune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2B23209F580014DF4A /* Neptune.framework */; };
+		E23753DA238276A80074F80E /* Neptune.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2B23209F580014DF4A /* Neptune.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E23753DB238276A90074F80E /* Platinum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2C23209F580014DF4A /* Platinum.framework */; };
+		E23753DC238276A90074F80E /* Platinum.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2C23209F580014DF4A /* Platinum.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E238765522447D23004F4483 /* ItunesMusicDMSDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = E238764922447D23004F4483 /* ItunesMusicDMSDelegate.mm */; };
 		E238765622447D23004F4483 /* SHDMRControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = E238764B22447D23004F4483 /* SHDMRControl.mm */; };
 		E238765722447D23004F4483 /* PltMicroMediaController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E238764C22447D23004F4483 /* PltMicroMediaController.mm */; };
@@ -61,6 +63,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E23753DC238276A90074F80E /* Platinum.framework in Embed Frameworks */,
+				E23753DA238276A80074F80E /* Neptune.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,8 +75,8 @@
 		2079FB809D53F72E315FF31E /* Pods-FDlna.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FDlna.release.xcconfig"; path = "Target Support Files/Pods-FDlna/Pods-FDlna.release.xcconfig"; sourceTree = "<group>"; };
 		4CD39AC3C4C039FC104A0D70 /* Pods-FDlna.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FDlna.debug.xcconfig"; path = "Target Support Files/Pods-FDlna/Pods-FDlna.debug.xcconfig"; sourceTree = "<group>"; };
 		BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FDlna.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2387645224395A3004F4483 /* Neptune.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Neptune.framework; sourceTree = "<group>"; };
-		E2387646224395A3004F4483 /* Platinum.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Platinum.framework; sourceTree = "<group>"; };
+		E2126E2B23209F580014DF4A /* Neptune.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Neptune.framework; sourceTree = "<group>"; };
+		E2126E2C23209F580014DF4A /* Platinum.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Platinum.framework; sourceTree = "<group>"; };
 		E238764922447D23004F4483 /* ItunesMusicDMSDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ItunesMusicDMSDelegate.mm; sourceTree = "<group>"; };
 		E238764A22447D23004F4483 /* PltMediaServerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PltMediaServerObject.h; sourceTree = "<group>"; };
 		E238764B22447D23004F4483 /* SHDMRControl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SHDMRControl.mm; sourceTree = "<group>"; };
@@ -136,8 +140,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2126E27231FA2410014DF4A /* Neptune.framework in Frameworks */,
-				E2126E25231FA1F40014DF4A /* Platinum.framework in Frameworks */,
+				E23753DB238276A90074F80E /* Platinum.framework in Frameworks */,
+				E23753D9238276A80074F80E /* Neptune.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,8 +286,8 @@
 		E295A8132242208E00F8006C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E2387645224395A3004F4483 /* Neptune.framework */,
-				E2387646224395A3004F4483 /* Platinum.framework */,
+				E2126E2B23209F580014DF4A /* Neptune.framework */,
+				E2126E2C23209F580014DF4A /* Platinum.framework */,
 				BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */,
 			);
 			name = Frameworks;
@@ -450,6 +454,10 @@
 			);
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FDlna/Pods-FDlna-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+				"$(SRCROOT)/Neptune.framework",
+				"$(SRCROOT)/Platinum.framework",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
@@ -648,23 +656,53 @@
 				CODE_SIGN_ENTITLEMENTS = FDlna/FDlna.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 16;
+				DEVELOPMENT_TEAM = A34QYQ6A72;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FDlna/DLNA",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/FDlna",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/StepOHelper\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKit\"",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
 				);
 				INFOPLIST_FILE = FDlna/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/StepOHelper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYKit\"",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
 				);
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = com.FDlna.selfWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = FDlna_dev;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -681,23 +719,53 @@
 				CODE_SIGN_ENTITLEMENTS = FDlna/FDlna.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = A34QYQ6A72;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/FDlna/DLNA",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/FDlna",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/StepOHelper\"",
+					"\"${PODS_ROOT}/Headers/Public/YYKit\"",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
 				);
 				INFOPLIST_FILE = FDlna/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/StepOHelper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/YYKit\"",
+					"\"$(SRCROOT)/Neptune.framework\"",
+					"\"$(SRCROOT)/Platinum.framework\"",
+					"\"$(SRCROOT)/\"",
 				);
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = com.FDlna.selfWork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = FDlna_dis;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};

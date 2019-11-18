@@ -119,7 +119,6 @@ public:
     
     // operators
     bool             operator==(const NPT_IpAddress& other) const;
-    NPT_IpAddress&    operator=(const NPT_IpAddress& other);
     
     // FIXME: temporary
     NPT_String       m_HostName;
