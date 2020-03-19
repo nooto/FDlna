@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B225BB605355F83B6BD59B9 /* libPods-FDlna.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */; };
 		E23753D9238276A80074F80E /* Neptune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2B23209F580014DF4A /* Neptune.framework */; };
 		E23753DA238276A80074F80E /* Neptune.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2B23209F580014DF4A /* Neptune.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E23753DB238276A90074F80E /* Platinum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2126E2C23209F580014DF4A /* Platinum.framework */; };
@@ -19,6 +20,7 @@
 		E238765A22447D23004F4483 /* PltMediaServerObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = E238765322447D23004F4483 /* PltMediaServerObject.mm */; };
 		E238765D22447EA2004F4483 /* SOSoundBoxPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E238765C22447EA2004F4483 /* SOSoundBoxPlayer.m */; };
 		E23876662244E0F9004F4483 /* FDiscoveryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E23876652244E0F9004F4483 /* FDiscoveryViewCell.m */; };
+		E23A0D3424237BC700903B2D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E23A0D3324237BC700903B2D /* CoreLocation.framework */; };
 		E2750F61223B88580031DD56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F60223B88580031DD56 /* AppDelegate.m */; };
 		E2750F64223B88580031DD56 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2750F63223B88580031DD56 /* ViewController.m */; };
 		E2750F69223B885A0031DD56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2750F68223B885A0031DD56 /* Assets.xcassets */; };
@@ -94,6 +96,7 @@
 		E23876632244B704004F4483 /* SOBaseCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOBaseCode.h; sourceTree = "<group>"; };
 		E23876642244E0F9004F4483 /* FDiscoveryViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FDiscoveryViewCell.h; sourceTree = "<group>"; };
 		E23876652244E0F9004F4483 /* FDiscoveryViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FDiscoveryViewCell.m; sourceTree = "<group>"; };
+		E23A0D3324237BC700903B2D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E2750F5C223B88580031DD56 /* FDlna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FDlna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2750F5F223B88580031DD56 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E2750F60223B88580031DD56 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -140,8 +143,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E23A0D3424237BC700903B2D /* CoreLocation.framework in Frameworks */,
 				E23753DB238276A90074F80E /* Platinum.framework in Frameworks */,
 				E23753D9238276A80074F80E /* Neptune.framework in Frameworks */,
+				5B225BB605355F83B6BD59B9 /* libPods-FDlna.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +291,7 @@
 		E295A8132242208E00F8006C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E23A0D3324237BC700903B2D /* CoreLocation.framework */,
 				E2126E2B23209F580014DF4A /* Neptune.framework */,
 				E2126E2C23209F580014DF4A /* Platinum.framework */,
 				BAA8867E7A4BD9C09FF504F4 /* libPods-FDlna.a */,
@@ -454,10 +460,6 @@
 			);
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-FDlna/Pods-FDlna-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-				"$(SRCROOT)/Neptune.framework",
-				"$(SRCROOT)/Platinum.framework",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
@@ -680,7 +682,7 @@
 					"\"$(SRCROOT)/\"",
 				);
 				INFOPLIST_FILE = FDlna/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -743,7 +745,7 @@
 					"\"$(SRCROOT)/\"",
 				);
 				INFOPLIST_FILE = FDlna/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

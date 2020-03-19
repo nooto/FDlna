@@ -17,7 +17,9 @@
 #import "FMainEmptyView.h"
 #import <StepOHelper.h>
 #import "FHelpViewController.h"
-@interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+#import <CoreLocation/CoreLocation.h>
+
+@interface FDiscoveryViewController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate,CLLocationManagerDelegate>
 
 @property (nonatomic, strong) UITableView *mTableView;
 @property (nonatomic, strong)  NSArray *mSourceDatas;
@@ -27,6 +29,9 @@
 @property (nonatomic, strong) NSTimer  *mTimer;
 @property (nonatomic, assign) NSInteger  mCount;
 @property (nonatomic, strong) FMainEmptyView *mEmptyView;
+
+@property (nonatomic, strong) CLLocationManager *locationMagager;
+
 @end
 
 @implementation FDiscoveryViewController
@@ -50,6 +55,17 @@
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
+
+- (CLLocationManager *)locationMagager {
+    if (!_locationMagager) {
+        _locationMagager = [[CLLocationManager alloc] init];
+        _locationMagager.delegate = self;
+    }
+    return _locationMagager;
+}
+
+
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -118,8 +134,29 @@
 }
 
 - (BOOL)checkWiFI{
+    if (@available(iOS 13, *)) {
+        if (CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {//开启了权限，直接搜索
+            return  [self didCheckWiFI];
+        } else if (CLLocationManager.authorizationStatus == kCLAuthorizationStatusDenied) {//如果用户没给权限，则提示
+            [SOAlertManagerShareInstance showAlertViewWithTitle:@"提示" message:@"请开启定位权限，搜索您附近同一局域网内的可播放设备。。。" leftButton:@"开启" rightButton:nil completct:^(NSInteger selectIndex, NSString *title) {
+                       [self.locationMagager requestWhenInUseAuthorization];
+                   }];
+            
+        } else {//请求权限
+            [self.locationMagager requestWhenInUseAuthorization];
+        }
+        return NO;
+    }
+    else {
+        return  [self didCheckWiFI];
+    }
+}
+
+
+- (BOOL)didCheckWiFI{
     NSString *SSID= [UIDevice Wi_FiSSID];
     if (SSID.length == 0) {
+        SSID = [UIDevice getWifiName];
         [SOAlertManagerShareInstance showAlertViewWithTitle:@"提示" message:@"需要在Wi-Fi情况下，搜索音箱设备，请连接到Wi-Fi网络后，点击屏幕搜索设备。。。" leftButton:@"去连接" rightButton:@"暂不连接" completct:^(NSInteger selectIndex, NSString *title) {
             if (selectIndex == 0) {
                 [SOTools openApplicationOpenSetting];
@@ -131,8 +168,8 @@
         return NO;
     }
     return YES;
-}
 
+}
 #pragma mark -
 - (SOWaterWaveView*)waveView{
     if (!_waveView) {

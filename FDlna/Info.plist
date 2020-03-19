@@ -23,7 +23,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>点击“好”以访问您的媒体库</string>
+	<string>App会读取您手机中的歌曲，进行远程投屏播放。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>App会根据您当前的位置查找可进行播放的设备。</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
